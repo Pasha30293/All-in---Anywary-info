@@ -1056,3 +1056,3573 @@ function searchProjects() {
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Anywary</title>
+
+<style>
+:root {
+    --bg:#f3f3f7;
+    --surface:rgba(255,255,255,.72);
+    --surface2:rgba(255,255,255,.52);
+    --text:#18181b;
+    --muted:#71717a;
+    --border:rgba(0,0,0,.08);
+    --accent:#477cff;
+    --accent2:#795cff;
+    --green:#22c55e;
+    --shadow:0 12px 40px rgba(0,0,0,.08);
+}
+
+* {
+    box-sizing:border-box;
+}
+
+body {
+    margin:0;
+    height:100vh;
+    overflow:hidden;
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:var(--text);
+
+    background:
+        radial-gradient(circle at 85% 10%,rgba(71,124,255,.18),transparent 30%),
+        radial-gradient(circle at 10% 90%,rgba(121,92,255,.13),transparent 28%),
+        var(--bg);
+}
+
+body.dark {
+    --bg:#111113;
+    --surface:rgba(31,31,35,.76);
+    --surface2:rgba(38,38,43,.65);
+    --text:#f4f4f5;
+    --muted:#a1a1aa;
+    --border:rgba(255,255,255,.08);
+}
+
+button,
+input {
+    font:inherit;
+}
+
+button {
+    cursor:pointer;
+}
+
+.app {
+    display:flex;
+    height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width:245px;
+    padding:16px 13px;
+
+    background:var(--surface);
+    backdrop-filter:blur(30px);
+    -webkit-backdrop-filter:blur(30px);
+
+    border-right:1px solid var(--border);
+
+    display:flex;
+    flex-direction:column;
+}
+
+.logo {
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:8px 10px 22px;
+}
+
+.logo-mark {
+    width:40px;
+    height:40px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:13px;
+
+    color:white;
+    font-weight:800;
+    font-size:20px;
+
+    background:
+        linear-gradient(135deg,var(--accent),var(--accent2));
+
+    box-shadow:0 8px 25px rgba(71,124,255,.3);
+}
+
+.logo-title {
+    font-weight:700;
+    font-size:19px;
+}
+
+.logo-subtitle {
+    color:var(--muted);
+    font-size:10px;
+}
+
+.nav {
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+}
+
+.nav button {
+    border:0;
+    background:transparent;
+
+    color:var(--text);
+
+    padding:11px 13px;
+    border-radius:10px;
+
+    display:flex;
+    align-items:center;
+    gap:13px;
+
+    text-align:left;
+
+    transition:.18s;
+}
+
+.nav button:hover {
+    background:var(--surface2);
+}
+
+.nav button.active {
+    background:rgba(255,255,255,.75);
+    box-shadow:0 3px 12px rgba(0,0,0,.05);
+}
+
+body.dark .nav button.active {
+    background:rgba(255,255,255,.08);
+}
+
+.nav-icon {
+    width:20px;
+    text-align:center;
+}
+
+.sidebar-bottom {
+    margin-top:auto;
+}
+
+.user-card {
+    padding:12px;
+    border-radius:15px;
+
+    background:var(--surface2);
+    border:1px solid var(--border);
+
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.avatar {
+    width:36px;
+    height:36px;
+    border-radius:50%;
+
+    display:grid;
+    place-items:center;
+
+    background:linear-gradient(135deg,#7b61ff,#477cff);
+    color:white;
+    font-weight:700;
+}
+
+.user-card strong {
+    display:block;
+    font-size:13px;
+}
+
+.user-card span {
+    color:var(--muted);
+    font-size:11px;
+}
+
+/* MAIN */
+
+.main {
+    flex:1;
+    overflow-y:auto;
+    padding:20px 28px 60px;
+}
+
+.topbar {
+    height:50px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    margin-bottom:25px;
+}
+
+.search {
+    position:relative;
+    width:min(560px,65%);
+}
+
+.search input {
+    width:100%;
+
+    padding:12px 16px 12px 43px;
+
+    border-radius:12px;
+    border:1px solid var(--border);
+
+    outline:none;
+
+    background:var(--surface);
+
+    color:var(--text);
+
+    backdrop-filter:blur(20px);
+}
+
+.search-icon {
+    position:absolute;
+    left:15px;
+    top:10px;
+    font-size:18px;
+}
+
+.top-actions {
+    display:flex;
+    gap:8px;
+}
+
+.icon-btn {
+    width:40px;
+    height:40px;
+
+    border-radius:11px;
+
+    border:1px solid var(--border);
+    background:var(--surface);
+
+    color:var(--text);
+}
+
+/* PAGES */
+
+.page {
+    display:none;
+}
+
+.page.active {
+    display:block;
+}
+
+.page-title {
+    font-size:36px;
+    letter-spacing:-1px;
+    margin:10px 0 6px;
+}
+
+.page-description {
+    color:var(--muted);
+    margin:0 0 25px;
+}
+
+/* HERO */
+
+.hero {
+    position:relative;
+    overflow:hidden;
+
+    padding:42px;
+
+    border-radius:25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.82),
+            rgba(229,237,255,.56)
+        );
+
+    border:1px solid rgba(255,255,255,.8);
+
+    box-shadow:var(--shadow);
+}
+
+body.dark .hero {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(48,49,58,.85),
+            rgba(36,37,45,.72)
+        );
+}
+
+.hero:after {
+    content:"";
+
+    position:absolute;
+
+    width:320px;
+    height:320px;
+
+    right:-90px;
+    top:-130px;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(71,124,255,.25),
+            rgba(121,92,255,.15)
+        );
+
+    filter:blur(3px);
+}
+
+.hero h1 {
+    margin:0;
+
+    font-size:clamp(30px,4vw,49px);
+
+    letter-spacing:-1.7px;
+}
+
+.hero p {
+    max-width:650px;
+
+    margin:12px 0 0;
+
+    color:var(--muted);
+
+    font-size:16px;
+    line-height:1.55;
+}
+
+.hero-buttons {
+    display:flex;
+    gap:10px;
+
+    margin-top:25px;
+}
+
+.primary {
+    border:0;
+
+    padding:11px 18px;
+
+    border-radius:10px;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent),
+            var(--accent2)
+        );
+
+    box-shadow:0 8px 22px rgba(71,124,255,.25);
+}
+
+.secondary {
+    padding:11px 18px;
+
+    border-radius:10px;
+
+    border:1px solid var(--border);
+
+    background:var(--surface);
+
+    color:var(--text);
+}
+
+/* STATS */
+
+.stats {
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:14px;
+
+    margin:18px 0;
+}
+
+.stat {
+    padding:19px;
+
+    border-radius:17px;
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    box-shadow:0 5px 20px rgba(0,0,0,.04);
+}
+
+.stat-name {
+    color:var(--muted);
+    font-size:12px;
+}
+
+.stat-value {
+    margin-top:5px;
+
+    font-size:27px;
+    font-weight:700;
+}
+
+/* PROJECTS */
+
+.section-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin:30px 2px 14px;
+}
+
+.section-header h2 {
+    margin:0;
+    font-size:21px;
+}
+
+.section-header button {
+    border:0;
+    background:none;
+    color:var(--accent);
+}
+
+.projects {
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,minmax(0,1fr));
+
+    gap:15px;
+}
+
+.project {
+    padding:20px;
+
+    border-radius:18px;
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    box-shadow:0 5px 20px rgba(0,0,0,.04);
+
+    transition:.2s;
+}
+
+.project:hover {
+    transform:translateY(-3px);
+    box-shadow:var(--shadow);
+}
+
+.project-top {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.project-icon {
+    width:45px;
+    height:45px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(71,124,255,.15),
+            rgba(121,92,255,.15)
+        );
+
+    font-size:21px;
+}
+
+.project h3 {
+    margin:16px 0 6px;
+}
+
+.project p {
+    min-height:42px;
+
+    margin:0;
+
+    color:var(--muted);
+
+    font-size:13px;
+    line-height:1.5;
+}
+
+.project-bottom {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-top:17px;
+
+    color:var(--muted);
+
+    font-size:11px;
+}
+
+.tag {
+    padding:5px 8px;
+
+    border-radius:7px;
+
+    color:var(--accent);
+
+    background:rgba(71,124,255,.1);
+}
+
+.github-link {
+    color:var(--accent);
+    text-decoration:none;
+}
+
+/* PROFILE */
+
+.profile {
+    padding:25px;
+
+    border-radius:20px;
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    box-shadow:var(--shadow);
+}
+
+.profile-header {
+    display:flex;
+    align-items:center;
+    gap:17px;
+}
+
+.profile-avatar {
+    width:80px;
+    height:80px;
+
+    border-radius:22px;
+
+    object-fit:cover;
+}
+
+.profile-name {
+    font-size:25px;
+    font-weight:700;
+}
+
+.profile-login {
+    color:var(--muted);
+}
+
+.profile-stats {
+    display:flex;
+    gap:30px;
+
+    margin-top:22px;
+}
+
+.profile-stats strong {
+    display:block;
+    font-size:20px;
+}
+
+.profile-stats span {
+    color:var(--muted);
+    font-size:12px;
+}
+
+/* LOADING */
+
+.loading {
+    padding:30px;
+
+    border-radius:17px;
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    color:var(--muted);
+
+    text-align:center;
+}
+
+/* MOBILE */
+
+@media(max-width:950px) {
+
+    .sidebar {
+        width:74px;
+    }
+
+    .logo-title,
+    .logo-subtitle,
+    .nav button span:not(.nav-icon),
+    .user-card div {
+        display:none;
+    }
+
+    .logo {
+        justify-content:center;
+    }
+
+    .nav button {
+        justify-content:center;
+    }
+
+    .user-card {
+        justify-content:center;
+    }
+
+    .projects {
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:650px) {
+
+    body {
+        overflow:auto;
+    }
+
+    .sidebar {
+        position:fixed;
+
+        z-index:100;
+
+        left:10px;
+        right:10px;
+        bottom:10px;
+
+        width:auto;
+        height:65px;
+
+        padding:7px;
+
+        border-radius:19px;
+    }
+
+    .logo,
+    .sidebar-bottom {
+        display:none;
+    }
+
+    .nav {
+        height:100%;
+        flex-direction:row;
+        justify-content:space-around;
+    }
+
+    .nav button {
+        flex:1;
+    }
+
+    .main {
+        padding:15px 15px 100px;
+    }
+
+    .topbar {
+        margin-bottom:18px;
+    }
+
+    .search {
+        width:100%;
+    }
+
+    .hero {
+        padding:27px;
+    }
+
+    .stats {
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .projects {
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-mark">
+            A
+        </div>
+
+        <div>
+            <div class="logo-title">
+                Anywary
+            </div>
+
+            <div class="logo-subtitle">
+                Creator Center
+            </div>
+        </div>
+
+    </div>
+
+
+    <nav class="nav">
+
+        <button
+            class="active"
+            onclick="navigate('home',this)"
+        >
+            <span class="nav-icon">⌂</span>
+            <span>Главная</span>
+        </button>
+
+        <button
+            onclick="navigate('apps',this)"
+        >
+            <span class="nav-icon">▦</span>
+            <span>Приложения</span>
+        </button>
+
+        <button
+            onclick="navigate('creators',this)"
+        >
+            <span class="nav-icon">♙</span>
+            <span>Создатели</span>
+        </button>
+
+        <button
+            onclick="navigate('news',this)"
+        >
+            <span class="nav-icon">◈</span>
+            <span>Новости</span>
+        </button>
+
+        <button
+            onclick="navigate('community',this)"
+        >
+            <span class="nav-icon">◌</span>
+            <span>Сообщество</span>
+        </button>
+
+        <button
+            onclick="navigate('resources',this)"
+        >
+            <span class="nav-icon">▣</span>
+            <span>Ресурсы</span>
+        </button>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+        <div class="user-card">
+
+            <div class="avatar">
+                A
+            </div>
+
+            <div>
+                <strong id="sidebarUser">
+                    Guest
+                </strong>
+
+                <span>
+                    Anywary ID
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="search">
+
+        <span class="search-icon">
+            ⌕
+        </span>
+
+        <input
+            id="searchInput"
+            type="search"
+            placeholder="Поиск в Anywary..."
+            onkeydown="handleSearch(event)"
+        >
+
+    </div>
+
+
+    <div class="top-actions">
+
+        <button
+            class="icon-btn"
+            onclick="toggleTheme()"
+            title="Изменить тему"
+        >
+            ◐
+        </button>
+
+        <button
+            class="icon-btn"
+            onclick="showGithubProfile()"
+            title="GitHub"
+        >
+            ◇
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- HOME -->
+
+<section
+    id="home"
+    class="page active"
+>
+
+    <div class="hero">
+
+        <h1>
+            Добро пожаловать<br>
+            в Anywary.
+        </h1>
+
+        <p>
+            Информационный центр для создателей.
+            Исследуй приложения, находи разработчиков,
+            следи за проектами и создавай своё.
+        </p>
+
+
+        <div class="hero-buttons">
+
+            <button
+                class="primary"
+                onclick="navigateById('apps')"
+            >
+                Исследовать
+            </button>
+
+            <button
+                class="secondary"
+                onclick="githubSearch('open source')"
+            >
+                Открыть GitHub
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat">
+            <div class="stat-name">
+                Проекты
+            </div>
+
+            <div class="stat-value">
+                1,284
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-name">
+                Создатели
+            </div>
+
+            <div class="stat-value">
+                642
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-name">
+                Stars
+            </div>
+
+            <div class="stat-value">
+                48.7K
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-name">
+                Community
+            </div>
+
+            <div class="stat-value">
+                3.8K
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="section-header">
+
+        <h2>
+            Популярные проекты
+        </h2>
+
+        <button onclick="navigateById('apps')">
+            Все проекты →
+        </button>
+
+    </div>
+
+
+    <div
+        id="homeProjects"
+        class="projects"
+    >
+
+        <article class="project">
+
+            <div class="project-top">
+
+                <div class="project-icon">
+                    ⚡
+                </div>
+
+                <span class="star">
+                    ★ 2.4K
+                </span>
+
+            </div>
+
+            <h3>
+                Anywary Studio
+            </h3>
+
+            <p>
+                Инструмент для создания
+                и публикации приложений.
+            </p>
+
+            <div class="project-bottom">
+
+                <span class="tag">
+                    Open Source
+                </span>
+
+                <span>
+                    JavaScript
+                </span>
+
+            </div>
+
+        </article>
+
+
+        <article class="project">
+
+            <div class="project-top">
+
+                <div class="project-icon">
+                    ◈
+                </div>
+
+                <span>
+                    ★ 1.8K
+                </span>
+
+            </div>
+
+            <h3>
+                Creator Engine
+            </h3>
+
+            <p>
+                Современная среда
+                для разработчиков.
+            </p>
+
+            <div class="project-bottom">
+
+                <span class="tag">
+                    Developer
+                </span>
+
+                <span>
+                    TypeScript
+                </span>
+
+            </div>
+
+        </article>
+
+
+        <article class="project">
+
+            <div class="project-top">
+
+                <div class="project-icon">
+                    ✦
+                </div>
+
+                <span>
+                    ★ 980
+                </span>
+
+            </div>
+
+            <h3>
+                Fluent UI Kit
+            </h3>
+
+            <p>
+                UI-компоненты
+                в стиле Windows 11.
+            </p>
+
+            <div class="project-bottom">
+
+                <span class="tag">
+                    Design
+                </span>
+
+                <span>
+                    CSS
+                </span>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- APPS -->
+
+<section
+    id="apps"
+    class="page"
+>
+
+    <h1 class="page-title">
+        Приложения
+    </h1>
+
+    <p class="page-description">
+        Проекты сообщества и открытые проекты GitHub.
+    </p>
+
+
+    <div
+        id="appsContainer"
+        class="projects"
+    >
+
+        <div class="loading">
+            Нажми «Поиск GitHub», чтобы загрузить проекты.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CREATORS -->
+
+<section
+    id="creators"
+    class="page"
+>
+
+    <h1 class="page-title">
+        Создатели
+    </h1>
+
+    <p class="page-description">
+        Разработчики, дизайнеры и команды.
+    </p>
+
+
+    <div
+        id="creatorContainer"
+        class="profile"
+    >
+
+        <div class="profile-header">
+
+            <div class="avatar">
+                A
+            </div>
+
+            <div>
+
+                <div class="profile-name">
+                    Anywary Creator
+                </div>
+
+                <div class="profile-login">
+                    Подключи GitHub, чтобы увидеть профиль.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div style="margin-top:22px">
+
+            <button
+                class="primary"
+                onclick="showGithubProfile()"
+            >
+                Найти GitHub профиль
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- NEWS -->
+
+<section
+    id="news"
+    class="page"
+>
+
+    <h1 class="page-title">
+        Новости
+    </h1>
+
+    <p class="page-description">
+        Новости и обновления экосистемы Anywary.
+    </p>
+
+
+    <article class="project">
+
+        <div class="project-icon">
+            📰
+        </div>
+
+        <h3>
+            Anywary v0.2
+        </h3>
+
+        <p>
+            Добавлена интеграция с GitHub,
+            поиск проектов и основа Creator Profile.
+        </p>
+
+    </article>
+
+</section>
+
+
+<!-- COMMUNITY -->
+
+<section
+    id="community"
+    class="page"
+>
+
+    <h1 class="page-title">
+        Сообщество
+    </h1>
+
+    <p class="page-description">
+        Место для общения создателей.
+    </p>
+
+
+    <div class="projects">
+
+        <article class="project">
+
+            <div class="project-icon">
+                💬
+            </div>
+
+            <h3>
+                Discussions
+            </h3>
+
+            <p>
+                Обсуждай проекты,
+                технологии и идеи.
+            </p>
+
+        </article>
+
+
+        <article class="project">
+
+            <div class="project-icon">
+                💡
+            </div>
+
+            <h3>
+                Ideas
+            </h3>
+
+            <p>
+                Предлагай новые
+                возможности.
+            </p>
+
+        </article>
+
+
+        <article class="project">
+
+            <div class="project-icon">
+                🤝
+            </div>
+
+            <h3>
+                Collaborations
+            </h3>
+
+            <p>
+                Находи людей
+                для совместных проектов.
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- RESOURCES -->
+
+<section
+    id="resources"
+    class="page"
+>
+
+    <h1 class="page-title">
+        Ресурсы
+    </h1>
+
+    <p class="page-description">
+        Инструменты для создателей.
+    </p>
+
+
+    <div class="projects">
+
+        <article class="project">
+
+            <div class="project-icon">
+                ⚙️
+            </div>
+
+            <h3>
+                Developer Tools
+            </h3>
+
+            <p>
+                Инструменты для разработки.
+            </p>
+
+        </article>
+
+
+        <article class="project">
+
+            <div class="project-icon">
+                📚
+            </div>
+
+            <h3>
+                Guides
+            </h3>
+
+            <p>
+                Гайды и документация.
+            </p>
+
+        </article>
+
+
+        <article class="project">
+
+            <div class="project-icon">
+                🎨
+            </div>
+
+            <h3>
+                Design
+            </h3>
+
+            <p>
+                UI и дизайн-ресурсы.
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<script>
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function navigate(id, button) {
+
+    document.querySelectorAll(".page")
+        .forEach(page => {
+            page.classList.remove("active");
+        });
+
+    const target =
+        document.getElementById(id);
+
+    if(target) {
+        target.classList.add("active");
+    }
+
+    document.querySelectorAll(".nav button")
+        .forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+    if(button) {
+        button.classList.add("active");
+    }
+
+    document.querySelector(".main")
+        .scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+}
+
+
+function navigateById(id) {
+
+    const button =
+        [...document.querySelectorAll(".nav button")]
+        .find(btn =>
+            btn.getAttribute("onclick")?.includes("'" + id + "'")
+        );
+
+    navigate(id,button);
+}
+
+
+/* =========================
+   THEME
+========================= */
+
+function toggleTheme() {
+
+    document.body.classList.toggle("dark");
+
+    localStorage.setItem(
+        "anywary-theme",
+        document.body.classList.contains("dark")
+            ? "dark"
+            : "light"
+    );
+}
+
+
+if(
+    localStorage.getItem("anywary-theme")
+    === "dark"
+) {
+    document.body.classList.add("dark");
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function handleSearch(event) {
+
+    if(event.key !== "Enter") {
+        return;
+    }
+
+    const value =
+        event.target.value.trim();
+
+    if(!value) {
+        return;
+    }
+
+    githubSearch(value);
+}
+
+
+async function githubSearch(query) {
+
+    navigateById("apps");
+
+    const container =
+        document.getElementById("appsContainer");
+
+    container.innerHTML = `
+        <div class="loading">
+            🔎 Ищем «${escapeHtml(query)}» на GitHub...
+        </div>
+    `;
+
+    try {
+
+        const url =
+            "https://api.github.com/search/repositories"
+            + "?q="
+            + encodeURIComponent(query)
+            + "&sort=stars"
+            + "&order=desc"
+            + "&per_page=12";
+
+        const response =
+            await fetch(url);
+
+        if(!response.ok) {
+            throw new Error("GitHub API error");
+        }
+
+        const data =
+            await response.json();
+
+        if(!data.items.length) {
+
+            container.innerHTML = `
+                <div class="loading">
+                    Ничего не найдено.
+                </div>
+            `;
+
+            return;
+        }
+
+        container.innerHTML = "";
+
+        data.items.forEach(repo => {
+
+            const card =
+                document.createElement("article");
+
+            card.className = "project";
+
+            card.innerHTML = `
+
+                <div class="project-top">
+
+                    <div class="project-icon">
+                        ${getIcon(repo.language)}
+                    </div>
+
+                    <span>
+                        ★ ${formatNumber(repo.stargazers_count)}
+                    </span>
+
+                </div>
+
+
+                <h3>
+                    ${escapeHtml(repo.name)}
+                </h3>
+
+
+                <p>
+                    ${escapeHtml(
+                        repo.description ||
+                        "Описание отсутствует."
+                    )}
+                </p>
+
+
+                <div class="project-bottom">
+
+                    <span class="tag">
+                        ${escapeHtml(
+                            repo.language || "Code"
+                        )}
+                    </span>
+
+
+                    <a
+                        class="github-link"
+                        href="${repo.html_url}"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        GitHub ↗
+                    </a>
+
+                </div>
+            `;
+
+            container.appendChild(card);
+
+        });
+
+    }
+
+    catch(error) {
+
+        container.innerHTML = `
+
+            <div class="loading">
+
+                ⚠️ Не удалось получить данные GitHub.
+
+                <br><br>
+
+                Проверь подключение к интернету
+                и попробуй снова.
+
+            </div>
+        `;
+    }
+}
+
+
+/* =========================
+   GITHUB PROFILE
+========================= */
+
+async function showGithubProfile() {
+
+    const username =
+        prompt(
+            "Введи GitHub username:",
+            ""
+        );
+
+    if(!username) {
+        return;
+    }
+
+    navigateById("creators");
+
+    const container =
+        document.getElementById("creatorContainer");
+
+    container.innerHTML = `
+        <div class="loading">
+            Загружаем профиль @${escapeHtml(username)}...
+        </div>
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                "https://api.github.com/users/"
+                + encodeURIComponent(username)
+            );
+
+        if(!response.ok) {
+            throw new Error();
+        }
+
+        const user =
+            await response.json();
+
+
+        document.getElementById(
+            "sidebarUser"
+        ).textContent =
+            user.login;
+
+
+        container.innerHTML = `
+
+            <div class="profile-header">
+
+                <img
+                    class="profile-avatar"
+                    src="${user.avatar_url}"
+                    alt=""
+                >
+
+                <div>
+
+                    <div class="profile-name">
+                        ${escapeHtml(
+                            user.name ||
+                            user.login
+                        )}
+                    </div>
+
+                    <div class="profile-login">
+                        @${escapeHtml(user.login)}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            ${
+                user.bio
+                ?
+                `<p style="
+                    color:var(--muted);
+                    margin-top:18px;
+                ">
+                    ${escapeHtml(user.bio)}
+                </p>`
+                :
+                ""
+            }
+
+
+            <div class="profile-stats">
+
+                <div>
+                    <strong>
+                        ${user.public_repos}
+                    </strong>
+                    <span>Repositories</span>
+                </div>
+
+
+                <div>
+                    <strong>
+                        ${user.followers}
+                    </strong>
+                    <span>Followers</span>
+                </div>
+
+
+                <div>
+                    <strong>
+                        ${user.following}
+                    </strong>
+                    <span>Following</span>
+                </div>
+
+            </div>
+
+
+            <div style="margin-top:24px">
+
+                <a
+                    class="primary"
+                    href="${user.html_url}"
+                    target="_blank"
+                    rel="noopener"
+                    style="
+                        display:inline-block;
+                        text-decoration:none;
+                    "
+                >
+                    Открыть GitHub
+                </a>
+
+            </div>
+
+        `;
+
+    }
+
+    catch(error) {
+
+        container.innerHTML = `
+
+            <div class="loading">
+
+                ❌ Пользователь не найден.
+
+                <br><br>
+
+                Проверь GitHub username.
+
+            </div>
+
+        `;
+    }
+}
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function formatNumber(number) {
+
+    if(number >= 1000000) {
+        return (
+            number / 1000000
+        ).toFixed(1) + "M";
+    }
+
+    if(number >= 1000) {
+        return (
+            number / 1000
+        ).toFixed(1) + "K";
+    }
+
+    return number;
+}
+
+
+function getIcon(language) {
+
+    const icons = {
+        JavaScript:"⚡",
+        TypeScript:"🔷",
+        Python:"🐍",
+        Rust:"🦀",
+        Go:"🔵",
+        Java:"☕",
+        C:"©",
+        "C++":"✚",
+        HTML:"🌐",
+        CSS:"🎨"
+    };
+
+    return icons[language] || "◈";
+}
+
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anywary — Creator Center</title>
+
+<style>
+:root{
+    --bg:#f4f5f8;
+    --surface:rgba(255,255,255,.76);
+    --surface-hover:rgba(255,255,255,.95);
+    --text:#17181c;
+    --muted:#70727a;
+    --border:rgba(0,0,0,.08);
+    --accent:#4c7dff;
+    --accent2:#785cff;
+    --green:#22c55e;
+    --shadow:0 15px 45px rgba(0,0,0,.08);
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    height:100vh;
+    overflow:hidden;
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:var(--text);
+
+    background:
+        radial-gradient(circle at 80% 5%,
+            rgba(76,125,255,.18),
+            transparent 30%),
+        radial-gradient(circle at 10% 90%,
+            rgba(120,92,255,.13),
+            transparent 28%),
+        var(--bg);
+}
+
+body.dark{
+    --bg:#111214;
+    --surface:rgba(30,31,36,.78);
+    --surface-hover:rgba(42,43,49,.95);
+    --text:#f4f4f5;
+    --muted:#a1a1aa;
+    --border:rgba(255,255,255,.09);
+}
+
+button,input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* =========================
+   APP
+========================= */
+
+.app{
+    display:flex;
+    height:100vh;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    width:250px;
+    padding:16px 13px;
+
+    display:flex;
+    flex-direction:column;
+
+    background:var(--surface);
+    backdrop-filter:blur(30px);
+    -webkit-backdrop-filter:blur(30px);
+
+    border-right:1px solid var(--border);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:11px;
+
+    padding:8px 10px 23px;
+}
+
+.logo-mark{
+    width:40px;
+    height:40px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:13px;
+
+    background:
+        linear-gradient(135deg,
+            var(--accent),
+            var(--accent2));
+
+    color:white;
+    font-weight:800;
+    font-size:20px;
+
+    box-shadow:
+        0 8px 25px rgba(76,125,255,.3);
+}
+
+.logo-title{
+    font-size:19px;
+    font-weight:700;
+}
+
+.logo-sub{
+    color:var(--muted);
+    font-size:10px;
+}
+
+.nav{
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+}
+
+.nav button{
+    width:100%;
+
+    border:0;
+    background:transparent;
+
+    color:var(--text);
+
+    padding:11px 13px;
+
+    border-radius:10px;
+
+    display:flex;
+    align-items:center;
+    gap:13px;
+
+    text-align:left;
+
+    transition:.18s;
+}
+
+.nav button:hover{
+    background:var(--surface-hover);
+}
+
+.nav button.active{
+    background:rgba(255,255,255,.78);
+
+    box-shadow:
+        0 3px 13px rgba(0,0,0,.05);
+}
+
+body.dark .nav button.active{
+    background:rgba(255,255,255,.08);
+}
+
+.nav-icon{
+    width:20px;
+    text-align:center;
+}
+
+.sidebar-bottom{
+    margin-top:auto;
+}
+
+.user-card{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    padding:12px;
+
+    border-radius:15px;
+
+    background:rgba(255,255,255,.45);
+    border:1px solid var(--border);
+}
+
+body.dark .user-card{
+    background:rgba(255,255,255,.05);
+}
+
+.avatar{
+    width:38px;
+    height:38px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(135deg,
+            #785cff,
+            #4c7dff);
+
+    color:white;
+    font-weight:700;
+}
+
+.user-card strong{
+    display:block;
+    font-size:13px;
+}
+
+.user-card span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+    flex:1;
+    overflow-y:auto;
+
+    padding:20px 28px 60px;
+}
+
+.topbar{
+    height:50px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    margin-bottom:25px;
+}
+
+.search{
+    width:min(570px,65%);
+    position:relative;
+}
+
+.search input{
+    width:100%;
+
+    padding:12px 16px 12px 43px;
+
+    border:1px solid var(--border);
+    border-radius:12px;
+
+    outline:none;
+
+    color:var(--text);
+    background:var(--surface);
+
+    backdrop-filter:blur(20px);
+}
+
+.search-icon{
+    position:absolute;
+
+    left:15px;
+    top:10px;
+
+    font-size:18px;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+}
+
+.icon-btn{
+    width:40px;
+    height:40px;
+
+    border:1px solid var(--border);
+    border-radius:11px;
+
+    color:var(--text);
+    background:var(--surface);
+}
+
+/* =========================
+   PAGES
+========================= */
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.page-title{
+    margin:8px 0 6px;
+
+    font-size:36px;
+    letter-spacing:-1px;
+}
+
+.page-description{
+    margin:0 0 25px;
+
+    color:var(--muted);
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    position:relative;
+    overflow:hidden;
+
+    padding:42px;
+
+    border-radius:26px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.85),
+            rgba(230,237,255,.58)
+        );
+
+    border:1px solid rgba(255,255,255,.8);
+
+    box-shadow:var(--shadow);
+}
+
+body.dark .hero{
+    background:
+        linear-gradient(
+            135deg,
+            rgba(47,49,58,.9),
+            rgba(35,36,43,.75)
+        );
+}
+
+.hero:after{
+    content:"";
+
+    position:absolute;
+
+    width:320px;
+    height:320px;
+
+    right:-90px;
+    top:-130px;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(76,125,255,.28),
+            rgba(120,92,255,.18)
+        );
+}
+
+.hero h1{
+    margin:0;
+
+    font-size:clamp(31px,4vw,50px);
+
+    letter-spacing:-1.8px;
+}
+
+.hero p{
+    max-width:650px;
+
+    margin:12px 0 0;
+
+    color:var(--muted);
+
+    line-height:1.55;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:10px;
+
+    margin-top:25px;
+}
+
+.primary{
+    border:0;
+    border-radius:10px;
+
+    padding:11px 18px;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent),
+            var(--accent2)
+        );
+
+    box-shadow:
+        0 8px 22px rgba(76,125,255,.24);
+}
+
+.secondary{
+    border:1px solid var(--border);
+    border-radius:10px;
+
+    padding:11px 18px;
+
+    color:var(--text);
+    background:var(--surface);
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+
+    gap:14px;
+
+    margin:18px 0;
+}
+
+.stat{
+    padding:19px;
+
+    border:1px solid var(--border);
+    border-radius:17px;
+
+    background:var(--surface);
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.04);
+}
+
+.stat-label{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.stat-value{
+    margin-top:5px;
+
+    font-size:27px;
+    font-weight:700;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,minmax(0,1fr));
+
+    gap:15px;
+}
+
+.card{
+    padding:20px;
+
+    border:1px solid var(--border);
+    border-radius:18px;
+
+    background:var(--surface);
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.04);
+
+    transition:.2s;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+
+    background:var(--surface-hover);
+
+    box-shadow:var(--shadow);
+}
+
+.card-icon{
+    width:48px;
+    height:48px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:14px;
+
+    font-size:22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(76,125,255,.14),
+            rgba(120,92,255,.15)
+        );
+}
+
+.card h3{
+    margin:15px 0 7px;
+}
+
+.card p{
+    margin:0;
+
+    min-height:42px;
+
+    color:var(--muted);
+
+    font-size:13px;
+    line-height:1.5;
+}
+
+.card-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-top:18px;
+
+    font-size:11px;
+    color:var(--muted);
+}
+
+.tag{
+    padding:5px 8px;
+
+    border-radius:7px;
+
+    color:var(--accent);
+
+    background:rgba(76,125,255,.1);
+}
+
+/* =========================
+   TEAM CARDS
+========================= */
+
+.team-card{
+    position:relative;
+    overflow:hidden;
+}
+
+.team-number{
+    position:absolute;
+
+    right:16px;
+    top:13px;
+
+    color:var(--muted);
+
+    font-size:11px;
+}
+
+.team-status{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+
+    color:var(--green);
+}
+
+.team-status:before{
+    content:"";
+
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:var(--green);
+}
+
+/* =========================
+   MIDILALAY
+========================= */
+
+.creator-profile{
+    padding:30px;
+
+    border:1px solid var(--border);
+    border-radius:23px;
+
+    background:var(--surface);
+
+    box-shadow:var(--shadow);
+}
+
+.creator-head{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.creator-avatar{
+    width:90px;
+    height:90px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #785cff,
+            #4c7dff
+        );
+
+    color:white;
+
+    font-size:31px;
+    font-weight:800;
+
+    box-shadow:
+        0 10px 30px rgba(76,125,255,.25);
+}
+
+.creator-name{
+    font-size:28px;
+    font-weight:750;
+}
+
+.creator-role{
+    color:var(--accent);
+    margin-top:3px;
+}
+
+.creator-bio{
+    margin-top:20px;
+
+    color:var(--muted);
+
+    line-height:1.6;
+}
+
+.creator-stats{
+    display:flex;
+    gap:35px;
+
+    margin-top:24px;
+}
+
+.creator-stats strong{
+    display:block;
+    font-size:22px;
+}
+
+.creator-stats span{
+    color:var(--muted);
+    font-size:12px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:950px){
+
+    .sidebar{
+        width:74px;
+    }
+
+    .logo-title,
+    .logo-sub,
+    .nav button span:not(.nav-icon),
+    .user-card div{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .nav button{
+        justify-content:center;
+    }
+
+    .user-card{
+        justify-content:center;
+    }
+
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:650px){
+
+    body{
+        overflow:auto;
+    }
+
+    .sidebar{
+        position:fixed;
+
+        z-index:100;
+
+        left:10px;
+        right:10px;
+        bottom:10px;
+
+        width:auto;
+        height:65px;
+
+        padding:7px;
+
+        border-radius:19px;
+    }
+
+    .logo,
+    .sidebar-bottom{
+        display:none;
+    }
+
+    .nav{
+        height:100%;
+        flex-direction:row;
+    }
+
+    .nav button{
+        flex:1;
+    }
+
+    .main{
+        padding:15px 15px 100px;
+    }
+
+    .search{
+        width:100%;
+    }
+
+    .hero{
+        padding:28px;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-mark">
+            A
+        </div>
+
+        <div>
+
+            <div class="logo-title">
+                Anywary
+            </div>
+
+            <div class="logo-sub">
+                Creator Center
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <nav class="nav">
+
+        <button
+            class="active"
+            onclick="openPage('home',this)"
+        >
+            <span class="nav-icon">⌂</span>
+            <span>Главная</span>
+        </button>
+
+        <button
+            onclick="openPage('apps',this)"
+        >
+            <span class="nav-icon">▦</span>
+            <span>Приложения</span>
+        </button>
+
+        <button
+            onclick="openPage('creators',this)"
+        >
+            <span class="nav-icon">♙</span>
+            <span>Создатели</span>
+        </button>
+
+        <button
+            onclick="openPage('teams',this)"
+        >
+            <span class="nav-icon">◇</span>
+            <span>Команды</span>
+        </button>
+
+        <button
+            onclick="openPage('news',this)"
+        >
+            <span class="nav-icon">◈</span>
+            <span>Новости</span>
+        </button>
+
+        <button
+            onclick="openPage('community',this)"
+        >
+            <span class="nav-icon">◌</span>
+            <span>Сообщество</span>
+        </button>
+
+        <button
+            onclick="openPage('resources',this)"
+        >
+            <span class="nav-icon">▣</span>
+            <span>Ресурсы</span>
+        </button>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+        <div class="user-card">
+
+            <div class="avatar">
+                M
+            </div>
+
+            <div>
+
+                <strong>
+                    Midilalay
+                </strong>
+
+                <span>
+                    Founder
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="search">
+
+        <span class="search-icon">
+            ⌕
+        </span>
+
+        <input
+            id="search"
+            type="search"
+            placeholder="Поиск в Anywary..."
+            onkeydown="searchEnter(event)"
+        >
+
+    </div>
+
+
+    <div class="actions">
+
+        <button
+            class="icon-btn"
+            onclick="toggleTheme()"
+            title="Тема"
+        >
+            ◐
+        </button>
+
+        <button
+            class="icon-btn"
+            onclick="openPage('creators')"
+            title="Профиль"
+        >
+            M
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     HOME
+========================= -->
+
+<section
+    id="home"
+    class="page active"
+>
+
+    <div class="hero">
+
+        <h1>
+            Добро пожаловать<br>
+            в Anywary.
+        </h1>
+
+        <p>
+            Информационный центр и экосистема
+            для создателей приложений.
+            Исследуй проекты, команды и людей,
+            которые создают будущее.
+        </p>
+
+        <div class="hero-buttons">
+
+            <button
+                class="primary"
+                onclick="openPageById('apps')"
+            >
+                Исследовать
+            </button>
+
+            <button
+                class="secondary"
+                onclick="openPageById('teams')"
+            >
+                Команды
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat">
+            <div class="stat-label">
+                Проекты
+            </div>
+            <div class="stat-value">
+                1,284
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">
+                Создатели
+            </div>
+            <div class="stat-value">
+                642
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">
+                Команды
+            </div>
+            <div class="stat-value">
+                9
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">
+                Community
+            </div>
+            <div class="stat-value">
+                3.8K
+            </div>
+        </div>
+
+    </div>
+
+
+    <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin:30px 2px 14px;
+    ">
+
+        <h2 style="margin:0;">
+            Команды Anywary
+        </h2>
+
+        <button
+            onclick="openPageById('teams')"
+            style="
+                border:0;
+                background:none;
+                color:var(--accent);
+                cursor:pointer;
+            "
+        >
+            Все команды →
+        </button>
+
+    </div>
+
+
+    <div
+        id="homeTeams"
+        class="grid"
+    ></div>
+
+</section>
+
+
+<!-- =========================
+     APPS
+========================= -->
+
+<section
+    id="apps"
+    class="page"
+>
+
+    <h1 class="page-title">
+        Приложения
+    </h1>
+
+    <p class="page-description">
+        Проекты Anywary и сообщества создателей.
+    </p>
+
+
+    <div class="grid">
+
+        <article class="card">
+
+            <div class="card-icon">
+                ⚡
+            </div>
+
+            <h3>
+                Anywary Studio
+            </h3>
+
+            <p>
+                Среда для создания
+                и публикации приложений.
+            </p>
+
+            <div class="card-footer">
+
+                <span class="tag">
+                    Open Source
+                </span>
+
+                <span>
+                    ★ 2.4K
+                </span>
+
+            </div>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-icon">
+                ◈
+            </div>
+
+            <h3>
+                Creator Engine
+            </h3>
+
+            <p>
+                Инструменты для
+                создателей.
+            </p>
+
+            <div class="card-footer">
+
+                <span class="tag">
+                    Developer
+                </span>
+
+                <span>
+                    ★ 1.8K
+                </span>
+
+            </div>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-icon">
+                ✦
+            </div>
+
+            <h3>
+                Fluent UI Kit
+            </h3>
+
+            <p>
+                Интерфейсные компоненты
+                Anywary.
+            </p>
+
+            <div class="card-footer">
+
+                <span class="tag">
+                    Design
+                </span>
+
+                <span>
+                    ★ 980
+                </span>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CREATORS
+========================= -->
+
+<section
+    id="creators"
+    class="page"
+>
+
+    <h1 class="page-title">
+        Creator Profile
+    </h1>
+
+    <p class="page-description">
+        Профиль основателя экосистемы Anywary.
+    </p>
+
+
+    <div class="creator-profile">
+
+        <div class="creator-head">
+
+            <div class="creator-avatar">
+                M
+            </div>
+
+            <div>
+
+                <div class="creator-name">
+                    Midilalay
+                </div>
+
+                <div class="creator-role">
+                    Founder · Creator · Anywary
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="creator-bio">
+
+            Создатель Anywary —
+            информационного центра и сообщества
+            для разработчиков, дизайнеров и
+            создателей приложений.
+
+        </div>
+
+
+        <div class="creator-stats">
+
+            <div>
+                <strong>9</strong>
+                <span>Teams</span>
+            </div>
+
+            <div>
+                <strong>12</strong>
+                <span>Projects</span>
+            </div>
+
+            <div>
+                <strong>248</strong>
+                <span>Contributions</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     TEAMS
+========================= -->
+
+<section
+    id="teams"
+    class="page"
+>
+
+    <h1 class="page-title">
+        Команды
+    </h1>
+
+    <p class="page-description">
+        9 направлений экосистемы Anywary.
+    </p>
+
+
+    <div
+        id="teamsContainer"
+        class="grid"
+    ></div>
+
+</section>
+
+
+<!-- =========================
+     NEWS
+========================= -->
+
+<section
+    id="news"
+    class="page"
+>
+
+    <h1 class="page-title">
+        Новости
+    </h1>
+
+    <p class="page-description">
+        Новости и обновления Anywary.
+    </p>
+
+
+    <article class="card">
+
+        <div class="card-icon">
+            📰
+        </div>
+
+        <h3>
+            Anywary v0.3
+        </h3>
+
+        <p>
+            Добавлена система команд,
+            Creator Profile и структура
+            экосистемы Anywary.
+        </p>
+
+    </article>
+
+</section>
+
+
+<!-- =========================
+     COMMUNITY
+========================= -->
+
+<section
+    id="community"
+    class="page"
+>
+
+    <h1 class="page-title">
+        Сообщество
+    </h1>
+
+    <p class="page-description">
+        Пространство для создателей.
+    </p>
+
+
+    <div class="grid">
+
+        <article class="card">
+
+            <div class="card-icon">
+                💬
+            </div>
+
+            <h3>
+                Discussions
+            </h3>
+
+            <p>
+                Обсуждай идеи,
+                технологии и проекты.
+            </p>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-icon">
+                💡
+            </div>
+
+            <h3>
+                Ideas
+            </h3>
+
+            <p>
+                Предлагай новые
+                возможности.
+            </p>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-icon">
+                🤝
+            </div>
+
+            <h3>
+                Collaborations
+            </h3>
+
+            <p>
+                Находи людей
+                для совместной работы.
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     RESOURCES
+========================= -->
+
+<section
+    id="resources"
+    class="page"
+>
+
+    <h1 class="page-title">
+        Ресурсы
+    </h1>
+
+    <p class="page-description">
+        Инструменты для создателей.
+    </p>
+
+
+    <div class="grid">
+
+        <article class="card">
+
+            <div class="card-icon">
+                ⚙️
+            </div>
+
+            <h3>
+                Developer Tools
+            </h3>
+
+            <p>
+                Инструменты разработки
+                приложений.
+            </p>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-icon">
+                📚
+            </div>
+
+            <h3>
+                Guides
+            </h3>
+
+            <p>
+                Документация и
+                руководства.
+            </p>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-icon">
+                🎨
+            </div>
+
+            <h3>
+                Design
+            </h3>
+
+            <p>
+                UI/UX и дизайн
+                ресурсы.
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<script>
+
+/* =========================
+   ANYWARY TEAMS
+========================= */
+
+const teams = [
+
+    {
+        name:"PersonallyTeam",
+        icon:"👤",
+        description:
+            "Персональные проекты, Anywary ID и профили создателей."
+    },
+
+    {
+        name:"FraundScopeTeam",
+        icon:"🛡️",
+        description:
+            "Безопасность, анализ проектов и защита сообщества."
+    },
+
+    {
+        name:"MirnoTeam",
+        icon:"🌐",
+        description:
+            "Основная техническая разработка и инфраструктура."
+    },
+
+    {
+        name:"AnywaryTeam",
+        icon:"◈",
+        description:
+            "Развитие самой платформы Anywary."
+    },
+
+    {
+        name:"CreatorTeam",
+        icon:"🚀",
+        description:
+            "Работа с разработчиками, дизайнерами и авторами."
+    },
+
+    {
+        name:"StudioTeam",
+        icon:"⚡",
+        description:
+            "Экспериментальные приложения и внутренние проекты."
+    },
+
+    {
+        name:"InfoTeam",
+        icon:"📰",
+        description:
+            "Новости, статьи, документация и информационные материалы."
+    },
+
+    {
+        name:"CommunityTeam",
+        icon:"🤝",
+        description:
+            "Сообщество, мероприятия и модерация."
+    },
+
+    {
+        name:"DesignTeam",
+        icon:"🎨",
+        description:
+            "UI/UX, Fluent Design и визуальная система Anywary."
+    }
+
+];
+
+
+/* =========================
+   RENDER TEAMS
+========================= */
+
+function renderTeams(){
+
+    const container =
+        document.getElementById("teamsContainer");
+
+    const home =
+        document.getElementById("homeTeams");
+
+    container.innerHTML = "";
+    home.innerHTML = "";
+
+
+    teams.forEach((team,index)=>{
+
+        const card =
+            createTeamCard(team,index);
+
+        container.appendChild(card);
+
+
+        if(index < 3){
+
+            home.appendChild(
+                createTeamCard(team,index)
+            );
+
+        }
+
+    });
+
+}
+
+
+function createTeamCard(team,index){
+
+    const card =
+        document.createElement("article");
+
+    card.className =
+        "card team-card";
+
+
+    card.innerHTML = `
+
+        <div class="team-number">
+            TEAM ${String(index+1).padStart(2,"0")}
+        </div>
+
+        <div class="card-icon">
+            ${team.icon}
+        </div>
+
+        <h3>
+            ${escapeHTML(team.name)}
+        </h3>
+
+        <p>
+            ${escapeHTML(team.description)}
+        </p>
+
+        <div class="card-footer">
+
+            <span class="team-status">
+                Active
+            </span>
+
+            <span>
+                Anywary
+            </span>
+
+        </div>
+    `;
+
+
+    return card;
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function openPage(id,button){
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page=>{
+            page.classList.remove("active");
+        });
+
+
+    const target =
+        document.getElementById(id);
+
+
+    if(target){
+        target.classList.add("active");
+    }
+
+
+    document
+        .querySelectorAll(".nav button")
+        .forEach(btn=>{
+            btn.classList.remove("active");
+        });
+
+
+    if(button){
+        button.classList.add("active");
+    }
+
+
+    document
+        .querySelector(".main")
+        .scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+}
+
+
+function openPageById(id){
+
+    const button =
+        [...document.querySelectorAll(".nav button")]
+        .find(btn =>
+            btn.getAttribute("onclick") &&
+            btn.getAttribute("onclick")
+                .includes("'" + id + "'")
+        );
+
+
+    openPage(id,button);
+}
+
+
+/* =========================
+   THEME
+========================= */
+
+function toggleTheme(){
+
+    document.body.classList.toggle("dark");
+
+    localStorage.setItem(
+        "anywary-theme",
+
+        document.body.classList.contains("dark")
+            ? "dark"
+            : "light"
+    );
+}
+
+
+if(
+    localStorage.getItem("anywary-theme")
+    === "dark"
+){
+    document.body.classList.add("dark");
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function searchEnter(event){
+
+    if(event.key !== "Enter"){
+        return;
+    }
+
+    const value =
+        event.target.value
+            .trim()
+            .toLowerCase();
+
+
+    if(!value){
+        return;
+    }
+
+
+    const team =
+        teams.find(team =>
+            team.name
+                .toLowerCase()
+                .includes(value)
+        );
+
+
+    if(team){
+
+        openPageById("teams");
+
+        setTimeout(()=>{
+
+            alert(
+                team.name +
+                "\n\n" +
+                team.description
+            );
+
+        },100);
+
+        return;
+    }
+
+
+    alert(
+        "Поиск: " +
+        value +
+        "\n\nGitHub integration будет добавлена следующим этапом."
+    );
+}
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+
+/* =========================
+   START
+========================= */
+
+renderTeams();
+
+</script>
+
+</body>
+</html>
