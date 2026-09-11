@@ -16573,3 +16573,2175 @@ function updateUI(){
   document.getElementById("profileProjects")
     .textContent =
       get(PRO
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anywary</title>
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+  --bg:#f3f5f9;
+  --card:rgba(255,255,255,.78);
+  --text:#17181c;
+  --muted:#777b85;
+  --border:rgba(0,0,0,.08);
+  --blue:#4f7cff;
+  --purple:#795cff;
+  --red:#e84d4d;
+  --green:#18b66a;
+  --shadow:0 20px 60px rgba(0,0,0,.09);
+}
+
+body.dark{
+  --bg:#101114;
+  --card:rgba(30,31,37,.82);
+  --text:#f5f5f7;
+  --muted:#a5a7af;
+  --border:rgba(255,255,255,.1);
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:"Segoe UI",system-ui,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 80% 0,#5d7fff22,transparent 35%),
+    radial-gradient(circle at 0 100%,#795cff18,transparent 35%),
+    var(--bg);
+}
+
+/* AUTH */
+
+#auth{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:20px;
+}
+
+.auth-box{
+  width:min(420px,100%);
+  padding:35px;
+  border:1px solid var(--border);
+  border-radius:28px;
+  background:var(--card);
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(30px);
+}
+
+.logo{
+  width:56px;
+  height:56px;
+  display:grid;
+  place-items:center;
+  border-radius:18px;
+  color:white;
+  font-size:25px;
+  font-weight:800;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+}
+
+.auth-box h1{margin:20px 0 5px}
+.auth-box p{color:var(--muted)}
+
+.field{margin-top:15px}
+
+.field label{
+  display:block;
+  margin-bottom:7px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+input,select,textarea{
+  width:100%;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  outline:none;
+  color:var(--text);
+  background:rgba(255,255,255,.25);
+}
+
+button{
+  font:inherit;
+  cursor:pointer;
+}
+
+.primary{
+  border:0;
+  border-radius:11px;
+  padding:12px 17px;
+  color:white;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+}
+
+.auth-submit{
+  width:100%;
+  margin-top:20px;
+}
+
+.switch{
+  margin-top:15px;
+  border:0;
+  background:none;
+  color:var(--blue);
+}
+
+.error{
+  min-height:18px;
+  margin-top:10px;
+  color:var(--red);
+  font-size:12px;
+}
+
+/* APP */
+
+#app{
+  display:none;
+  min-height:100vh;
+}
+
+#app.show{
+  display:flex;
+}
+
+.sidebar{
+  width:250px;
+  flex-shrink:0;
+  min-height:100vh;
+  padding:15px;
+  border-right:1px solid var(--border);
+  background:var(--card);
+  backdrop-filter:blur(30px);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 5px 25px;
+}
+
+.brand .logo{
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  font-size:17px;
+}
+
+.brand small{
+  color:var(--muted);
+}
+
+.nav{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.nav button{
+  width:100%;
+  padding:11px 12px;
+  border:0;
+  border-radius:10px;
+  color:var(--text);
+  background:transparent;
+  text-align:left;
+}
+
+.nav button:hover,
+.nav button.active{
+  background:rgba(100,120,180,.12);
+}
+
+.profile-mini{
+  position:absolute;
+  bottom:18px;
+  width:218px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:rgba(255,255,255,.2);
+}
+
+.avatar{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:white;
+  font-weight:700;
+  background:linear-gradient(135deg,var(--purple),var(--blue));
+}
+
+.main{
+  flex:1;
+  min-width:0;
+  padding:22px 30px 60px;
+  overflow:auto;
+}
+
+.top{
+  display:flex;
+  gap:10px;
+  margin-bottom:28px;
+}
+
+.search{
+  flex:1;
+  max-width:650px;
+}
+
+.search input{
+  background:var(--card);
+}
+
+.top button{
+  width:42px;
+  height:42px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  color:var(--text);
+  background:var(--card);
+}
+
+.page{display:none}
+.page.active{display:block}
+
+h1{
+  font-size:38px;
+  letter-spacing:-1px;
+}
+
+.subtitle{
+  margin-top:-18px;
+  color:var(--muted);
+}
+
+.card{
+  padding:20px;
+  border:1px solid var(--border);
+  border-radius:19px;
+  background:var(--card);
+  box-shadow:0 5px 25px rgba(0,0,0,.03);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:15px;
+  margin-top:15px;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:7px;
+  color:var(--blue);
+  background:#4f7cff18;
+  font-size:11px;
+}
+
+.muted{
+  color:var(--muted);
+}
+
+/* TABLE */
+
+.table-wrap{
+  overflow:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,td{
+  padding:13px 10px;
+  border-bottom:1px solid var(--border);
+  text-align:left;
+  font-size:13px;
+}
+
+.role{
+  padding:5px 8px;
+  border-radius:7px;
+  font-size:10px;
+  background:#795cff15;
+  color:var(--purple);
+}
+
+/* MODAL */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:none;
+  place-items:center;
+  padding:20px;
+  background:#0005;
+  backdrop-filter:blur(6px);
+}
+
+.modal.show{
+  display:grid;
+}
+
+.modal-box{
+  width:min(650px,100%);
+  max-height:90vh;
+  overflow:auto;
+  padding:25px;
+  border:1px solid var(--border);
+  border-radius:23px;
+  background:var(--card);
+  box-shadow:var(--shadow);
+}
+
+.modal-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.close{
+  width:35px;
+  height:35px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  color:var(--text);
+  background:transparent;
+}
+
+.permissions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:10px;
+}
+
+.permission{
+  padding:8px 10px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  font-size:11px;
+}
+
+.permission input{
+  width:auto;
+}
+
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:20px;
+}
+
+.toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  padding:13px 17px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:var(--card);
+  box-shadow:var(--shadow);
+  opacity:0;
+  transform:translateY(10px);
+  transition:.2s;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+@media(max-width:800px){
+
+  .sidebar{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    width:100%;
+    min-height:auto;
+    z-index:50;
+    padding:7px;
+  }
+
+  .brand,
+  .profile-mini{
+    display:none;
+  }
+
+  .nav{
+    flex-direction:row;
+  }
+
+  .nav button{
+    text-align:center;
+  }
+
+  .main{
+    padding-bottom:90px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= AUTH ================= -->
+
+<section id="auth">
+
+  <div class="auth-box">
+
+    <div class="logo">A</div>
+
+    <h1 id="authTitle">Вход в Anywary</h1>
+
+    <p id="authText">
+      Твой центр сообщества создателей.
+    </p>
+
+    <form id="authForm">
+
+      <div class="field">
+        <label>Никнейм</label>
+        <input id="username" autocomplete="username" required>
+      </div>
+
+      <div class="field">
+        <label>Пароль</label>
+        <input id="password"
+               type="password"
+               autocomplete="current-password"
+               required>
+      </div>
+
+      <div id="emailBox" class="field" style="display:none">
+        <label>Email</label>
+        <input id="email" type="email">
+      </div>
+
+      <button class="primary auth-submit">
+        Войти
+      </button>
+
+    </form>
+
+    <div id="error" class="error"></div>
+
+    <button id="switchButton"
+            class="switch"
+            type="button">
+      Создать аккаунт
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ================= APP ================= -->
+
+<div id="app">
+
+  <aside class="sidebar">
+
+    <div class="brand">
+
+      <div class="logo">A</div>
+
+      <div>
+        <strong>Anywary</strong><br>
+        <small>Creator Ecosystem</small>
+      </div>
+
+    </div>
+
+    <nav class="nav">
+
+      <button class="active"
+              data-page="home">
+        🏠 Главная
+      </button>
+
+      <button data-page="creator">
+        🚀 Creator Center
+      </button>
+
+      <button data-page="teams">
+        👥 Team Center
+      </button>
+
+      <button data-page="profile">
+        👤 Anywary ID
+      </button>
+
+      <button id="ownerButton"
+              data-page="owner">
+        👑 Owner Console
+      </button>
+
+    </nav>
+
+    <div class="profile-mini">
+
+      <div id="miniAvatar" class="avatar">A</div>
+
+      <div>
+        <strong id="miniName">User</strong><br>
+        <small id="miniRole">Member</small>
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <main class="main">
+
+    <header class="top">
+
+      <div class="search">
+        <input id="search"
+               placeholder="Поиск в Anywary...">
+      </div>
+
+      <button id="themeButton">◐</button>
+
+      <button id="logoutButton">↪</button>
+
+    </header>
+
+
+    <!-- HOME -->
+
+    <section id="home" class="page active">
+
+      <h1>Anywary</h1>
+
+      <p class="subtitle">
+        Информационный центр сообщества создателей.
+      </p>
+
+      <div class="card">
+
+        <h2>
+          Привет, <span id="welcome"></span> 👋
+        </h2>
+
+        <p class="muted">
+          Добро пожаловать в Anywary.
+        </p>
+
+        <button class="primary"
+                data-page="creator">
+          Открыть Creator Center →
+        </button>
+
+      </div>
+
+      <div class="grid">
+
+        <div class="card">
+          <h3>🚀 Creator Center</h3>
+          <p class="muted">
+            Управление проектами.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>👥 Teams</h3>
+          <p class="muted">
+            Сообщество из 9 команд.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>🔐 Permissions</h3>
+          <p class="muted">
+            Гибкая система прав.
+          </p>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- CREATOR -->
+
+    <section id="creator" class="page">
+
+      <h1>Creator Center</h1>
+
+      <p class="subtitle">
+        Управление твоими проектами.
+      </p>
+
+      <button id="createProject"
+              class="primary">
+        + Создать проект
+      </button>
+
+      <div id="projects"
+           class="grid"></div>
+
+    </section>
+
+
+    <!-- TEAMS -->
+
+    <section id="teams" class="page">
+
+      <h1>Team Center</h1>
+
+      <p class="subtitle">
+        Команды Anywary.
+      </p>
+
+      <div id="teamsGrid"
+           class="grid"></div>
+
+    </section>
+
+
+    <!-- PROFILE -->
+
+    <section id="profile" class="page">
+
+      <h1>Anywary ID</h1>
+
+      <p class="subtitle">
+        Твой профиль.
+      </p>
+
+      <div class="card">
+
+        <div style="display:flex;gap:15px;align-items:center">
+
+          <div id="profileAvatar"
+               class="avatar"
+               style="width:65px;height:65px">
+            A
+          </div>
+
+          <div>
+
+            <h2 id="profileName"
+                style="margin:0">
+              User
+            </h2>
+
+            <span id="profileRole"
+                  class="badge">
+              Member
+            </span>
+
+          </div>
+
+        </div>
+
+        <p id="profileEmail"
+           class="muted"></p>
+
+      </div>
+
+    </section>
+
+
+    <!-- OWNER -->
+
+    <section id="owner" class="page">
+
+      <h1>👑 Owner Console</h1>
+
+      <p class="subtitle">
+        Управление пользователями и permissions.
+      </p>
+
+      <div class="grid">
+
+        <div class="card">
+          <h3>👥 Пользователи</h3>
+          <h2 id="userCount">0</h2>
+        </div>
+
+        <div class="card">
+          <h3>🛡️ Твоя роль</h3>
+          <h2 id="ownerRole">Owner</h2>
+        </div>
+
+        <div class="card">
+          <h3>🔐 Permissions</h3>
+          <h2 id="permissionCount">0</h2>
+        </div>
+
+      </div>
+
+      <div class="card"
+           style="margin-top:15px">
+
+        <h2>Управление пользователями</h2>
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>Пользователь</th>
+                <th>Роль</th>
+                <th>Команды</th>
+                <th></th>
+              </tr>
+
+            </thead>
+
+            <tbody id="usersTable"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<!-- ================= USER MODAL ================= -->
+
+<div id="userModal" class="modal">
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+
+      <h2>Права пользователя</h2>
+
+      <button id="closeUser"
+              class="close">
+        ×
+      </button>
+
+    </div>
+
+    <p id="managedUser"
+       class="muted">
+    </p>
+
+    <div class="field">
+
+      <label>Роль</label>
+
+      <select id="roleSelect">
+
+        <option value="Admin">Admin</option>
+        <option value="TeamLead">TeamLead</option>
+        <option value="Developer">Developer</option>
+        <option value="Designer">Designer</option>
+        <option value="Member">Member</option>
+
+      </select>
+
+    </div>
+
+    <div class="field">
+
+      <label>Permissions</label>
+
+      <div id="permissionList"
+           class="permissions">
+      </div>
+
+    </div>
+
+    <div class="modal-actions">
+
+      <button id="cancelUser"
+              class="close"
+              style="width:auto;padding:0 14px">
+        Отмена
+      </button>
+
+      <button id="saveUser"
+              class="primary">
+        Сохранить
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= PROJECT MODAL ================= -->
+
+<div id="projectModal" class="modal">
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+
+      <h2>Новый проект</h2>
+
+      <button id="closeProject"
+              class="close">
+        ×
+      </button>
+
+    </div>
+
+    <form id="projectForm">
+
+      <div class="field">
+        <label>Название</label>
+        <input id="projectName" required>
+      </div>
+
+      <div class="field">
+        <label>Описание</label>
+        <textarea id="projectDescription"
+                  rows="4"></textarea>
+      </div>
+
+      <div class="field">
+        <label>GitHub</label>
+        <input id="projectGithub"
+               placeholder="https://github.com/...">
+      </div>
+
+      <div class="modal-actions">
+
+        <button type="button"
+                id="cancelProject"
+                class="close"
+                style="width:auto;padding:0 14px">
+          Отмена
+        </button>
+
+        <button class="primary">
+          Создать
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+"use strict";
+
+/* ============================================
+   CONFIG
+============================================ */
+
+const USERS_KEY = "anywary_users";
+const PROJECTS_KEY = "anywary_projects";
+const SESSION_KEY = "anywary_session";
+const THEME_KEY = "anywary_theme";
+
+const OWNER_NAME = "Midilalay";
+
+const ALL_PERMISSIONS = [
+  "create_project",
+  "edit_project",
+  "delete_project",
+  "manage_team",
+  "invite_members",
+  "manage_users",
+  "manage_roles",
+  "manage_permissions",
+  "view_admin"
+];
+
+const ROLE_PERMISSIONS = {
+
+  Admin:[
+    "create_project",
+    "edit_project",
+    "delete_project",
+    "manage_team",
+    "invite_members",
+    "manage_users",
+    "view_admin"
+  ],
+
+  TeamLead:[
+    "create_project",
+    "edit_project",
+    "manage_team",
+    "invite_members"
+  ],
+
+  Developer:[
+    "create_project",
+    "edit_project"
+  ],
+
+  Designer:[
+    "create_project",
+    "edit_project"
+  ],
+
+  Member:[
+    "create_project"
+  ]
+
+};
+
+const TEAM_NAMES = [
+  "PersonallyTeam",
+  "FraundScopeTeam",
+  "MirnoTeam",
+  "AnywaryTeam",
+  "CreatorTeam",
+  "StudioTeam",
+  "InfoTeam",
+  "CommunityTeam",
+  "DesignTeam"
+];
+
+
+/* ============================================
+   STORAGE
+============================================ */
+
+function getUsers(){
+  try{
+    return JSON.parse(
+      localStorage.getItem(USERS_KEY) || "[]"
+    );
+  }catch{
+    return [];
+  }
+}
+
+function setUsers(data){
+  localStorage.setItem(
+    USERS_KEY,
+    JSON.stringify(data)
+  );
+}
+
+function getProjects(){
+  try{
+    return JSON.parse(
+      localStorage.getItem(PROJECTS_KEY) || "[]"
+    );
+  }catch{
+    return [];
+  }
+}
+
+function setProjects(data){
+  localStorage.setItem(
+    PROJECTS_KEY,
+    JSON.stringify(data)
+  );
+}
+
+function currentUser(){
+
+  const session =
+    localStorage.getItem(SESSION_KEY);
+
+  if(!session) return null;
+
+  return getUsers().find(
+    u => u.username === session
+  ) || null;
+}
+
+
+/* ============================================
+   FIRST OWNER
+============================================ */
+
+/*
+  Midilalay получает Owner только при создании
+  своего аккаунта.
+
+  Пароль здесь НЕ хранится.
+*/
+
+function normalizeOwner(){
+
+  const data = getUsers();
+
+  const owner =
+    data.find(
+      u =>
+        u.username.toLowerCase()
+        === OWNER_NAME.toLowerCase()
+    );
+
+  if(!owner) return;
+
+  owner.role = "Owner";
+  owner.permissions = [...ALL_PERMISSIONS];
+
+  setUsers(data);
+}
+
+
+/* ============================================
+   AUTH MODE
+============================================ */
+
+let registerMode = false;
+
+const authForm =
+  document.getElementById("authForm");
+
+const authTitle =
+  document.getElementById("authTitle");
+
+const authText =
+  document.getElementById("authText");
+
+const emailBox =
+  document.getElementById("emailBox");
+
+const switchButton =
+  document.getElementById("switchButton");
+
+const errorBox =
+  document.getElementById("error");
+
+
+switchButton.addEventListener(
+  "click",
+  () => {
+
+    registerMode = !registerMode;
+
+    authTitle.textContent =
+      registerMode
+        ? "Создать аккаунт"
+        : "Вход в Anywary";
+
+    authText.textContent =
+      registerMode
+        ? "Создай свой Anywary ID."
+        : "Твой центр сообщества создателей.";
+
+    emailBox.style.display =
+      registerMode
+        ? "block"
+        : "none";
+
+    switchButton.textContent =
+      registerMode
+        ? "У меня уже есть аккаунт"
+        : "Создать аккаунт";
+
+    document.querySelector(".auth-submit")
+      .textContent =
+        registerMode
+          ? "Создать аккаунт"
+          : "Войти";
+
+    errorBox.textContent = "";
+
+  }
+);
+
+
+authForm.addEventListener(
+  "submit",
+  event => {
+
+    event.preventDefault();
+
+    const username =
+      document.getElementById("username")
+        .value.trim();
+
+    const password =
+      document.getElementById("password")
+        .value;
+
+    const email =
+      document.getElementById("email")
+        .value.trim();
+
+    errorBox.textContent = "";
+
+    if(username.length < 3){
+
+      errorBox.textContent =
+        "Никнейм должен содержать минимум 3 символа.";
+
+      return;
+    }
+
+    if(password.length < 6){
+
+      errorBox.textContent =
+        "Пароль должен содержать минимум 6 символов.";
+
+      return;
+    }
+
+
+    const data = getUsers();
+
+    if(registerMode){
+
+      if(
+        data.some(
+          u =>
+            u.username.toLowerCase()
+            === username.toLowerCase()
+        )
+      ){
+
+        errorBox.textContent =
+          "Такой аккаунт уже существует.";
+
+        return;
+      }
+
+
+      const isOwner =
+        username.toLowerCase()
+        === OWNER_NAME.toLowerCase();
+
+
+      const user = {
+
+        id:
+          crypto.randomUUID
+          ? crypto.randomUUID()
+          : Date.now().toString(),
+
+        username,
+
+        /*
+          Для демонстрационного прототипа.
+          В production пароль должен храниться
+          только на сервере в виде хеша.
+        */
+
+        password,
+
+        email,
+
+        role:
+          isOwner
+            ? "Owner"
+            : "Member",
+
+        permissions:
+          isOwner
+            ? [...ALL_PERMISSIONS]
+            : [...ROLE_PERMISSIONS.Member],
+
+        teams:[],
+
+        createdAt:
+          new Date().toISOString()
+
+      };
+
+
+      data.push(user);
+
+      setUsers(data);
+
+      localStorage.setItem(
+        SESSION_KEY,
+        user.username
+      );
+
+      openApplication();
+
+      showToast(
+        isOwner
+          ? "Owner Console активирована 👑"
+          : "Аккаунт создан ✓"
+      );
+
+      return;
+
+    }
+
+
+    const user =
+      data.find(
+        u =>
+          u.username.toLowerCase()
+          === username.toLowerCase()
+      );
+
+
+    if(!user){
+
+      errorBox.textContent =
+        "Аккаунт не найден.";
+
+      return;
+    }
+
+
+    if(user.password !== password){
+
+      errorBox.textContent =
+        "Неверный пароль.";
+
+      return;
+    }
+
+
+    /*
+      Проверяем владельца при входе.
+    */
+
+    if(
+      user.username.toLowerCase()
+      === OWNER_NAME.toLowerCase()
+    ){
+
+      user.role = "Owner";
+      user.permissions = [...ALL_PERMISSIONS];
+
+      setUsers(data);
+
+    }
+
+
+    localStorage.setItem(
+      SESSION_KEY,
+      user.username
+    );
+
+    openApplication();
+
+  }
+);
+
+
+/* ============================================
+   APPLICATION
+============================================ */
+
+function openApplication(){
+
+  normalizeOwner();
+
+  const user = currentUser();
+
+  if(!user) return;
+
+  document.getElementById("auth")
+    .style.display = "none";
+
+  document.getElementById("app")
+    .classList.add("show");
+
+  updateInterface();
+
+  renderProjects();
+
+  renderTeams();
+
+  renderOwnerConsole();
+
+}
+
+
+function updateInterface(){
+
+  const user = currentUser();
+
+  if(!user) return;
+
+  const initials =
+    user.username
+      .slice(0,2)
+      .toUpperCase();
+
+  document.getElementById("welcome")
+    .textContent = user.username;
+
+  document.getElementById("miniName")
+    .textContent = user.username;
+
+  document.getElementById("miniRole")
+    .textContent = user.role;
+
+  document.getElementById("miniAvatar")
+    .textContent = initials;
+
+  document.getElementById("profileAvatar")
+    .textContent = initials;
+
+  document.getElementById("profileName")
+    .textContent = user.username;
+
+  document.getElementById("profileRole")
+    .textContent = user.role;
+
+  document.getElementById("profileEmail")
+    .textContent =
+      user.email || "Email не указан";
+
+
+  const owner =
+    user.role === "Owner";
+
+
+  document.getElementById("ownerButton")
+    .style.display =
+      owner ? "block" : "none";
+
+}
+
+
+/* ============================================
+   PERMISSIONS
+============================================ */
+
+function hasPermission(permission){
+
+  const user = currentUser();
+
+  if(!user) return false;
+
+  if(user.role === "Owner")
+    return true;
+
+  return (
+    user.permissions || []
+  ).includes(permission);
+
+}
+
+
+/* ============================================
+   NAVIGATION
+============================================ */
+
+document.querySelectorAll(
+  "[data-page]"
+).forEach(button => {
+
+  button.addEventListener(
+    "click",
+    () => {
+
+      const target =
+        button.dataset.page;
+
+      if(
+        target === "owner" &&
+        !hasPermission("view_admin")
+      ){
+
+        showToast(
+          "Owner Console доступна только владельцу."
+        );
+
+        return;
+      }
+
+
+      document.querySelectorAll(".page")
+        .forEach(
+          p => p.classList.remove("active")
+        );
+
+      const page =
+        document.getElementById(target);
+
+      if(page)
+        page.classList.add("active");
+
+
+      document.querySelectorAll(
+        ".nav button"
+      ).forEach(
+        b => b.classList.remove("active")
+      );
+
+      const navButton =
+        document.querySelector(
+          `.nav button[data-page="${target}"]`
+        );
+
+      if(navButton)
+        navButton.classList.add("active");
+
+    }
+  );
+
+});
+
+
+/* ============================================
+   OWNER CONSOLE
+============================================ */
+
+let editingUserId = null;
+
+
+function renderOwnerConsole(){
+
+  const user = currentUser();
+
+  if(!user) return;
+
+  if(!hasPermission("view_admin")){
+
+    document.getElementById("ownerButton")
+      .style.display = "none";
+
+    return;
+
+  }
+
+
+  const data = getUsers();
+
+  document.getElementById("userCount")
+    .textContent = data.length;
+
+  document.getElementById("ownerRole")
+    .textContent = user.role;
+
+  document.getElementById("permissionCount")
+    .textContent =
+      (user.permissions || []).length;
+
+
+  const table =
+    document.getElementById("usersTable");
+
+  table.innerHTML = "";
+
+
+  data.forEach(target => {
+
+    const tr =
+      document.createElement("tr");
+
+
+    const teams =
+      target.teams?.length
+        ? target.teams.join(", ")
+        : "—";
+
+
+    const canManage =
+      hasPermission("manage_users");
+
+
+    tr.innerHTML = `
+
+      <td>
+        <strong>${escapeHTML(
+          target.username
+        )}</strong>
+      </td>
+
+      <td>
+        <span class="role">
+          ${escapeHTML(target.role)}
+        </span>
+      </td>
+
+      <td>
+        <span class="muted">
+          ${escapeHTML(teams)}
+        </span>
+      </td>
+
+      <td>
+        ${
+          canManage
+          && target.username !== OWNER_NAME
+          ? `
+            <button class="primary"
+              onclick="openUserEditor('${target.id}')">
+              Права
+            </button>
+          `
+          : target.username === OWNER_NAME
+            ? "👑"
+            : "—"
+        }
+      </td>
+
+    `;
+
+    table.appendChild(tr);
+
+  });
+
+}
+
+
+/* ============================================
+   USER EDITOR
+============================================ */
+
+function openUserEditor(id){
+
+  if(!hasPermission("manage_users")){
+
+    showToast("Недостаточно прав.");
+    return;
+
+  }
+
+
+  const user =
+    getUsers().find(
+      u => u.id === id
+    );
+
+  if(!user) return;
+
+
+  /*
+    Owner нельзя изменить через эту консоль.
+  */
+
+  if(user.username === OWNER_NAME){
+
+    showToast("Это владелец Anywary.");
+    return;
+
+  }
+
+
+  editingUserId = id;
+
+  document.getElementById("managedUser")
+    .textContent =
+      `@${user.username}`;
+
+
+  document.getElementById("roleSelect")
+    .value = user.role;
+
+
+  const list =
+    document.getElementById(
+      "permissionList"
+    );
+
+  list.innerHTML = "";
+
+
+  ALL_PERMISSIONS.forEach(permission => {
+
+    const checked =
+      (user.permissions || [])
+        .includes(permission);
+
+
+    const label =
+      document.createElement("label");
+
+    label.className = "permission";
+
+    label.innerHTML = `
+
+      <input type="checkbox"
+             value="${permission}"
+             ${checked ? "checked" : ""}>
+
+      ${permission}
+
+    `;
+
+    list.appendChild(label);
+
+  });
+
+
+  document.getElementById("userModal")
+    .classList.add("show");
+
+}
+
+
+document.getElementById("saveUser")
+.addEventListener(
+  "click",
+  () => {
+
+    if(!editingUserId) return;
+
+    if(!hasPermission("manage_users")){
+
+      showToast("Недостаточно прав.");
+      return;
+
+    }
+
+
+    const data = getUsers();
+
+    const user =
+      data.find(
+        u => u.id === editingUserId
+      );
+
+    if(!user) return;
+
+
+    user.role =
+      document.getElementById("roleSelect")
+        .value;
+
+
+    user.permissions =
+      [...document.querySelectorAll(
+        "#permissionList input:checked"
+      )].map(
+        input => input.value
+      );
+
+
+    /*
+      Если выбрана роль Admin и пользователь
+      не имеет отдельных permissions,
+      выдаём стандартные права роли.
+    */
+
+    if(
+      user.permissions.length === 0
+    ){
+
+      user.permissions =
+        [...(
+          ROLE_PERMISSIONS[user.role]
+          || []
+        )];
+
+    }
+
+
+    setUsers(data);
+
+    closeUserModal();
+
+    renderOwnerConsole();
+
+    showToast(
+      `Права @${user.username} обновлены ✓`
+    );
+
+  }
+);
+
+
+function closeUserModal(){
+
+  document.getElementById("userModal")
+    .classList.remove("show");
+
+  editingUserId = null;
+
+}
+
+document.getElementById("closeUser")
+  .addEventListener(
+    "click",
+    closeUserModal
+  );
+
+document.getElementById("cancelUser")
+  .addEventListener(
+    "click",
+    closeUserModal
+  );
+
+
+/* ============================================
+   PROJECTS
+============================================ */
+
+document.getElementById("createProject")
+.addEventListener(
+  "click",
+  () => {
+
+    if(!hasPermission("create_project")){
+
+      showToast(
+        "У тебя нет права создавать проекты."
+      );
+
+      return;
+
+    }
+
+    document.getElementById("projectForm")
+      .reset();
+
+    document.getElementById("projectModal")
+      .classList.add("show");
+
+  }
+);
+
+
+document.getElementById("closeProject")
+  .addEventListener(
+    "click",
+    closeProject
+  );
+
+document.getElementById("cancelProject")
+  .addEventListener(
+    "click",
+    closeProject
+  );
+
+
+function closeProject(){
+
+  document.getElementById("projectModal")
+    .classList.remove("show");
+
+}
+
+
+document.getElementById("projectForm")
+.addEventListener(
+  "submit",
+  event => {
+
+    event.preventDefault();
+
+    const user = currentUser();
+
+    if(!user) return;
+
+
+    const data = getProjects();
+
+
+    data.push({
+
+      id:
+        crypto.randomUUID
+        ? crypto.randomUUID()
+        : Date.now().toString(),
+
+      owner:user.username,
+
+      name:
+        document.getElementById("projectName")
+          .value.trim(),
+
+      description:
+        document.getElementById("projectDescription")
+          .value.trim(),
+
+      github:
+        document.getElementById("projectGithub")
+          .value.trim(),
+
+      createdAt:
+        new Date().toISOString()
+
+    });
+
+
+    setProjects(data);
+
+    closeProject();
+
+    renderProjects();
+
+    showToast("Проект создан 🚀");
+
+  }
+);
+
+
+function renderProjects(){
+
+  const user = currentUser();
+
+  if(!user) return;
+
+  const box =
+    document.getElementById("projects");
+
+  box.innerHTML = "";
+
+
+  const list =
+    getProjects().filter(
+      p => p.owner === user.username
+    );
+
+
+  if(!list.length){
+
+    box.innerHTML = `
+
+      <div class="card"
+           style="grid-column:1/-1">
+
+        <h3>Проектов пока нет</h3>
+
+        <p class="muted">
+          Создай свой первый проект.
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  list.forEach(project => {
+
+    const card =
+      document.createElement("div");
+
+    card.className = "card";
+
+    card.innerHTML = `
+
+      <h3>🚀 ${escapeHTML(
+        project.name
+      )}</h3>
+
+      <p class="muted">
+        ${escapeHTML(
+          project.description || "Без описания"
+        )}
+      </p>
+
+      ${
+        project.github
+        ? `
+          <button class="primary"
+            onclick="openGithub('${escapeJS(
+              project.github
+            )}')">
+            GitHub →
+          </button>
+        `
+        : ""
+      }
+
+    `;
+
+    box.appendChild(card);
+
+  });
+
+}
+
+
+/* ============================================
+   TEAMS
+============================================ */
+
+function renderTeams(){
+
+  const grid =
+    document.getElementById("teamsGrid");
+
+  grid.innerHTML = "";
+
+
+  TEAM_NAMES.forEach((team,index) => {
+
+    const members =
+      getUsers().filter(
+        u =>
+          (u.teams || [])
+            .includes(team)
+      );
+
+
+    const card =
+      document.createElement("div");
+
+    card.className = "card";
+
+    card.innerHTML = `
+
+      <h3>
+        ${["👤","🛡️","🌐","◈","🚀","⚡","📰","🤝","🎨"][index]}
+        ${team}
+      </h3>
+
+      <p class="muted">
+        ${members.length}
+        участников
+      </p>
+
+      <button class="primary"
+        onclick="joinTeam('${escapeJS(team)}')">
+        ${
+          members.some(
+            m =>
+              m.username === currentUser().username
+          )
+          ? "Вы в команде ✓"
+          : "Вступить"
+        }
+      </button>
+
+    `;
+
+    grid.appendChild(card);
+
+  });
+
+}
+
+
+function joinTeam(team){
+
+  const data = getUsers();
+
+  const user =
+    data.find(
+      u =>
+        u.id === currentUser().id
+    );
+
+  if(!user) return;
+
+
+  user.teams =
+    user.teams || [];
+
+
+  if(user.teams.includes(team)){
+
+    showToast("Ты уже в этой команде.");
+    return;
+
+  }
+
+
+  user.teams.push(team);
+
+  setUsers(data);
+
+  renderTeams();
+
+  renderOwnerConsole();
+
+  showToast(
+    `Ты присоединился к ${team} ✓`
+  );
+
+}
+
+
+/* ============================================
+   GITHUB
+============================================ */
+
+function openGithub(url){
+
+  if(!/^https?:\/\//i.test(url))
+    return;
+
+  window.open(
+    url,
+    "_blank",
+    "noopener,noreferrer"
+  );
+
+}
+
+
+/* ============================================
+   THEME
+============================================ */
+
+document.getElementById("themeButton")
+.addEventListener(
+  "click",
+  () => {
+
+    document.body.classList.toggle("dark");
+
+    localStorage.setItem(
+      THEME_KEY,
+      document.body.classList.contains("dark")
+        ? "dark"
+        : "light"
+    );
+
+  }
+);
+
+
+if(
+  localStorage.getItem(THEME_KEY)
+  === "dark"
+){
+
+  document.body.classList.add("dark");
+
+}
+
+
+/* ============================================
+   LOGOUT
+============================================ */
+
+document.getElementById("logoutButton")
+.addEventListener(
+  "click",
+  () => {
+
+    localStorage.removeItem(
+      SESSION_KEY
+    );
+
+    document.getElementById("app")
+      .classList.remove("show");
+
+    document.getElementById("auth")
+      .style.display = "grid";
+
+    document.getElementById("password")
+      .value = "";
+
+  }
+);
+
+
+/* ============================================
+   SEARCH
+============================================ */
+
+document.getElementById("search")
+.addEventListener(
+  "input",
+  event => {
+
+    const query =
+      event.target.value.toLowerCase();
+
+    document.querySelectorAll(
+      "#projects .card"
+    ).forEach(card => {
+
+      card.style.display =
+        card.textContent
+          .toLowerCase()
+          .includes(query)
+          ? ""
+          : "none";
+
+    });
+
+  }
+);
+
+
+/* ============================================
+   HELPERS
+============================================ */
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+function escapeJS(value){
+
+  return String(value ?? "")
+    .replaceAll("\\","\\\\")
+    .replaceAll("'","\\'");
+
+}
+
+
+let toastTimer;
+
+function showToast(message){
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent = message;
+
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer =
+    setTimeout(
+      () =>
+        toast.classList.remove("show"),
+      2500
+    );
+
+}
+
+
+/* ============================================
+   RESTORE SESSION
+============================================ */
+
+normalizeOwner();
+
+if(currentUser()){
+  openApplication();
+}
+
+</script>
+
+</body>
+</html
