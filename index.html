@@ -16163,7 +16163,58 @@ normalizeOwner();
 
 if(currentUser()){
   openApplication();
+}function openApplication() {
+    const user = currentUser();
+
+    if (!user) {
+        console.error("Пользователь не найден");
+        return;
+    }
+
+    // Полностью убираем экран авторизации
+    const auth = document.getElementById("auth");
+    const app = document.getElementById("app");
+
+    auth.style.display = "none";
+    auth.hidden = true;
+
+    app.style.display = "flex";
+    app.classList.add("show");
+
+    // Обновляем интерфейс
+    updateInterface();
+    renderProjects();
+    renderTeams();
+    renderOwnerConsole();
+
+    // Всегда открываем главную страницу
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+    });
+
+    const home = document.getElementById("home");
+
+    if (home) {
+        home.classList.add("active");
+    }
+
+    // Обновляем активную кнопку меню
+    document.querySelectorAll(".nav button").forEach(button => {
+        button.classList.remove("active");
+    });
+
+    const homeButton =
+        document.querySelector('.nav button[data-page="home"]');
+
+    if (homeButton) {
+        homeButton.classList.add("active");
+    }
+
+    console.log("ANYWARY STARTED");
+    console.log("User:", user.username);
+    console.log("Role:", user.role);
 }
+
 
 </script>
 
