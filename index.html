@@ -8766,23 +8766,3 @@ let authMode = "login";
 
 function switchAuth(){
 
-    authMode =
-        authMode === "login"
-        ? "register"
-        : "login";
-
-
-    document.getElementById(
-        "authTitle"
-    ).textContent =
-        authMode === "login"
-        ? "Вход в Anywary"
-        : "Создать аккаунт";
-
-
-    document.getElementById(
-        "authDescription"
-    ).textContent =
-        authMode === "login"
-        ? "Твоя экосистема создателей."
-        : "Присоединись к сообществу Anywary.";
