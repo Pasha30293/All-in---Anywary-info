@@ -4626,3 +4626,5278 @@ renderTeams();
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anywary — Accounts</title>
+
+<style>
+:root{
+    --bg:#f3f4f7;
+    --panel:rgba(255,255,255,.78);
+    --panel2:rgba(255,255,255,.55);
+    --text:#18191d;
+    --muted:#777b84;
+    --border:rgba(0,0,0,.08);
+    --accent:#4d7cff;
+    --accent2:#765cff;
+    --green:#20c875;
+    --red:#ef4444;
+    --shadow:0 20px 55px rgba(0,0,0,.10);
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:var(--text);
+
+    background:
+        radial-gradient(circle at 85% 0%,
+            rgba(77,124,255,.18),
+            transparent 30%),
+        radial-gradient(circle at 0% 100%,
+            rgba(118,92,255,.14),
+            transparent 30%),
+        var(--bg);
+}
+
+body.dark{
+    --bg:#111214;
+    --panel:rgba(30,31,36,.82);
+    --panel2:rgba(40,41,47,.68);
+    --text:#f4f4f5;
+    --muted:#a1a1aa;
+    --border:rgba(255,255,255,.09);
+}
+
+/* AUTH */
+
+.auth-screen{
+    min-height:100vh;
+    display:grid;
+    place-items:center;
+    padding:25px;
+}
+
+.auth-box{
+    width:min(430px,100%);
+    padding:35px;
+
+    border:1px solid var(--border);
+    border-radius:27px;
+
+    background:var(--panel);
+    box-shadow:var(--shadow);
+
+    backdrop-filter:blur(30px);
+}
+
+.auth-logo{
+    width:58px;
+    height:58px;
+
+    display:grid;
+    place-items:center;
+
+    margin-bottom:20px;
+
+    border-radius:17px;
+
+    color:white;
+    font-size:25px;
+    font-weight:800;
+
+    background:linear-gradient(
+        135deg,
+        var(--accent),
+        var(--accent2)
+    );
+}
+
+.auth-box h1{
+    margin:0;
+    font-size:31px;
+}
+
+.auth-box p{
+    color:var(--muted);
+    line-height:1.5;
+}
+
+.field{
+    margin-top:17px;
+}
+
+.field label{
+    display:block;
+    margin-bottom:7px;
+    font-size:12px;
+    color:var(--muted);
+}
+
+.field input{
+    width:100%;
+    padding:13px 14px;
+
+    border:1px solid var(--border);
+    border-radius:11px;
+
+    outline:none;
+
+    color:var(--text);
+    background:var(--panel2);
+}
+
+.auth-button{
+    width:100%;
+    margin-top:22px;
+
+    padding:13px;
+
+    border:0;
+    border-radius:11px;
+
+    color:white;
+    font-weight:600;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent),
+            var(--accent2)
+        );
+}
+
+.switch{
+    margin-top:18px;
+
+    border:0;
+    background:none;
+
+    color:var(--accent);
+    cursor:pointer;
+}
+
+.error{
+    margin-top:13px;
+    color:var(--red);
+    font-size:12px;
+}
+
+/* APP */
+
+.app{
+    display:none;
+    height:100vh;
+}
+
+.app.visible{
+    display:flex;
+}
+
+.sidebar{
+    width:250px;
+    flex-shrink:0;
+
+    padding:15px 12px;
+
+    display:flex;
+    flex-direction:column;
+
+    background:var(--panel);
+    border-right:1px solid var(--border);
+
+    backdrop-filter:blur(30px);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:8px 10px 23px;
+}
+
+.logo-mark{
+    width:41px;
+    height:41px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:13px;
+
+    color:white;
+    font-weight:800;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent),
+            var(--accent2)
+        );
+}
+
+.logo-name{
+    font-weight:700;
+}
+
+.logo-sub{
+    color:var(--muted);
+    font-size:10px;
+}
+
+.nav{
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+}
+
+.nav button{
+    width:100%;
+
+    padding:11px 13px;
+
+    display:flex;
+    gap:13px;
+
+    border:0;
+    border-radius:10px;
+
+    color:var(--text);
+    background:transparent;
+
+    text-align:left;
+}
+
+.nav button:hover,
+.nav button.active{
+    background:var(--panel2);
+}
+
+.nav-icon{
+    width:20px;
+    text-align:center;
+}
+
+.user-card{
+    margin-top:auto;
+
+    padding:12px;
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    border:1px solid var(--border);
+    border-radius:15px;
+
+    background:var(--panel2);
+}
+
+.avatar{
+    width:38px;
+    height:38px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:50%;
+
+    color:white;
+    font-weight:700;
+
+    background:
+        linear-gradient(
+            135deg,
+            #765cff,
+            #4d7cff
+        );
+}
+
+.user-card strong{
+    display:block;
+    font-size:13px;
+}
+
+.user-card span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.main{
+    flex:1;
+    min-width:0;
+
+    overflow:auto;
+
+    padding:20px 28px 70px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:25px;
+}
+
+.search{
+    width:min(580px,65%);
+}
+
+.search input{
+    width:100%;
+
+    padding:12px 16px;
+
+    border:1px solid var(--border);
+    border-radius:12px;
+
+    color:var(--text);
+    background:var(--panel);
+    outline:none;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+}
+
+.icon-btn{
+    width:40px;
+    height:40px;
+
+    border:1px solid var(--border);
+    border-radius:11px;
+
+    color:var(--text);
+    background:var(--panel);
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.title{
+    font-size:37px;
+    letter-spacing:-1px;
+}
+
+.description{
+    color:var(--muted);
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:
+        repeat(3,minmax(0,1fr));
+    gap:15px;
+}
+
+.card{
+    padding:20px;
+
+    border:1px solid var(--border);
+    border-radius:18px;
+
+    background:var(--panel);
+
+    box-shadow:0 5px 20px rgba(0,0,0,.04);
+}
+
+.card h3{
+    margin:13px 0 7px;
+}
+
+.card p{
+    color:var(--muted);
+    line-height:1.5;
+    font-size:13px;
+}
+
+.primary{
+    padding:11px 17px;
+
+    border:0;
+    border-radius:10px;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent),
+            var(--accent2)
+        );
+}
+
+.secondary{
+    padding:11px 17px;
+
+    border:1px solid var(--border);
+    border-radius:10px;
+
+    color:var(--text);
+    background:var(--panel);
+}
+
+.profile{
+    padding:30px;
+
+    border:1px solid var(--border);
+    border-radius:22px;
+
+    background:var(--panel);
+    box-shadow:var(--shadow);
+}
+
+.profile-head{
+    display:flex;
+    align-items:center;
+    gap:17px;
+}
+
+.profile-avatar{
+    width:80px;
+    height:80px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:23px;
+
+    color:white;
+    font-size:27px;
+    font-weight:800;
+
+    background:
+        linear-gradient(
+            135deg,
+            #765cff,
+            #4d7cff
+        );
+}
+
+.role{
+    display:inline-block;
+
+    margin-top:5px;
+    padding:5px 9px;
+
+    border-radius:7px;
+
+    color:var(--accent);
+    background:rgba(77,124,255,.1);
+
+    font-size:11px;
+}
+
+.permissions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+
+    margin-top:22px;
+}
+
+.permission{
+    padding:7px 10px;
+
+    border:1px solid var(--border);
+    border-radius:8px;
+
+    background:var(--panel2);
+
+    font-size:11px;
+}
+
+.user-row{
+    display:flex;
+    align-items:center;
+    gap:13px;
+
+    padding:14px 0;
+
+    border-bottom:1px solid var(--border);
+}
+
+.user-row:last-child{
+    border-bottom:0;
+}
+
+.user-info{
+    flex:1;
+}
+
+.user-info strong{
+    display:block;
+}
+
+.user-info span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+select{
+    padding:8px 10px;
+
+    border:1px solid var(--border);
+    border-radius:8px;
+
+    color:var(--text);
+    background:var(--panel);
+}
+
+.danger{
+    padding:8px 11px;
+
+    border:0;
+    border-radius:8px;
+
+    color:white;
+    background:var(--red);
+}
+
+.toast{
+    position:fixed;
+
+    right:24px;
+    bottom:24px;
+
+    padding:13px 17px;
+
+    border:1px solid var(--border);
+    border-radius:12px;
+
+    background:var(--panel);
+    box-shadow:var(--shadow);
+
+    opacity:0;
+    transform:translateY(10px);
+
+    transition:.2s;
+
+    pointer-events:none;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+@media(max-width:850px){
+
+    .sidebar{
+        width:75px;
+    }
+
+    .logo-name,
+    .logo-sub,
+    .nav button span:not(.nav-icon),
+    .user-card > div:not(.avatar){
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .nav button{
+        justify-content:center;
+    }
+
+    .user-card{
+        justify-content:center;
+    }
+
+    .grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:600px){
+
+    .sidebar{
+        position:fixed;
+        left:10px;
+        right:10px;
+        bottom:10px;
+
+        width:auto;
+        height:65px;
+
+        z-index:100;
+
+        padding:7px;
+
+        border-radius:19px;
+    }
+
+    .logo,
+    .user-card{
+        display:none;
+    }
+
+    .nav{
+        height:100%;
+        flex-direction:row;
+    }
+
+    .nav button{
+        flex:1;
+    }
+
+    .main{
+        padding:15px 15px 100px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+
+<!-- ==================================================
+     AUTH SCREEN
+================================================== -->
+
+<section id="authScreen" class="auth-screen">
+
+    <div class="auth-box">
+
+        <div class="auth-logo">
+            A
+        </div>
+
+        <h1 id="authTitle">
+            Вход в Anywary
+        </h1>
+
+        <p id="authDescription">
+            Войди в свой аккаунт создателя.
+        </p>
+
+
+        <form id="authForm">
+
+            <div class="field">
+
+                <label>
+                    Никнейм
+                </label>
+
+                <input
+                    id="username"
+                    autocomplete="username"
+                    required
+                    placeholder="Например: Midilalay"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Пароль
+                </label>
+
+                <input
+                    id="password"
+                    type="password"
+                    autocomplete="current-password"
+                    required
+                    placeholder="••••••••"
+                >
+
+            </div>
+
+
+            <div
+                id="emailField"
+                class="field"
+                style="display:none"
+            >
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    id="email"
+                    type="email"
+                    placeholder="you@example.com"
+                >
+
+            </div>
+
+
+            <button
+                id="authButton"
+                class="auth-button"
+                type="submit"
+            >
+                Войти
+            </button>
+
+        </form>
+
+
+        <div
+            id="authError"
+            class="error"
+        ></div>
+
+
+        <button
+            id="switchButton"
+            class="switch"
+            onclick="switchAuthMode()"
+        >
+            Создать аккаунт
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ==================================================
+     APPLICATION
+================================================== -->
+
+<div id="app" class="app">
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-mark">
+            A
+        </div>
+
+        <div>
+
+            <div class="logo-name">
+                Anywary
+            </div>
+
+            <div class="logo-sub">
+                Creator Center
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <nav class="nav">
+
+        <button
+            class="active"
+            onclick="openPage('home',this)"
+        >
+            <span class="nav-icon">⌂</span>
+            <span>Главная</span>
+        </button>
+
+
+        <button
+            onclick="openPage('apps',this)"
+        >
+            <span class="nav-icon">▦</span>
+            <span>Приложения</span>
+        </button>
+
+
+        <button
+            onclick="openPage('teams',this)"
+        >
+            <span class="nav-icon">◇</span>
+            <span>Команды</span>
+        </button>
+
+
+        <button
+            onclick="openPage('profile',this)"
+        >
+            <span class="nav-icon">♙</span>
+            <span>Профиль</span>
+        </button>
+
+
+        <button
+            id="usersNav"
+            onclick="openPage('users',this)"
+        >
+            <span class="nav-icon">♚</span>
+            <span>Пользователи</span>
+        </button>
+
+
+        <button
+            id="adminNav"
+            onclick="openPage('admin',this)"
+        >
+            <span class="nav-icon">⚙</span>
+            <span>Admin</span>
+        </button>
+
+    </nav>
+
+
+    <div class="user-card">
+
+        <div
+            id="sidebarAvatar"
+            class="avatar"
+        >
+            M
+        </div>
+
+        <div>
+
+            <strong id="sidebarName">
+                Midilalay
+            </strong>
+
+            <span id="sidebarRole">
+                Owner
+            </span>
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="search">
+
+        <input
+            id="search"
+            placeholder="Поиск Anywary..."
+        >
+
+    </div>
+
+
+    <div class="actions">
+
+        <button
+            class="icon-btn"
+            onclick="toggleTheme()"
+        >
+            ◐
+        </button>
+
+
+        <button
+            class="icon-btn"
+            onclick="logout()"
+            title="Выйти"
+        >
+            ↪
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- HOME -->
+
+<section
+    id="home"
+    class="page active"
+>
+
+    <h1 class="title">
+        Добро пожаловать в Anywary
+    </h1>
+
+    <p class="description">
+        Твоя экосистема создателей.
+    </p>
+
+
+    <div
+        class="card"
+        style="margin-top:25px"
+    >
+
+        <h2>
+            Привет, <span id="welcomeName"></span> 👋
+        </h2>
+
+        <p>
+            Ты вошёл в Anywary.
+            Здесь будут проекты, команды,
+            создатели и управление системой.
+        </p>
+
+    </div>
+
+
+    <div
+        class="grid"
+        style="margin-top:15px"
+    >
+
+        <div class="card">
+
+            <h3>
+                Команды
+            </h3>
+
+            <p>
+                9 команд Anywary.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Проекты
+            </h3>
+
+            <p>
+                Все проекты экосистемы.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Permissions
+            </h3>
+
+            <p>
+                Управление доступом.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- APPS -->
+
+<section
+    id="apps"
+    class="page"
+>
+
+    <h1 class="title">
+        Приложения
+    </h1>
+
+    <p class="description">
+        Проекты Anywary.
+    </p>
+
+
+    <div class="grid">
+
+        <div class="card">
+            <h3>Anywary Studio</h3>
+            <p>
+                Среда создания приложений.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Creator Engine</h3>
+            <p>
+                Инструменты для создателей.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Anywary ID</h3>
+            <p>
+                Единый профиль пользователя.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- TEAMS -->
+
+<section
+    id="teams"
+    class="page"
+>
+
+    <h1 class="title">
+        Команды
+    </h1>
+
+    <p class="description">
+        Команды Anywary.
+    </p>
+
+
+    <div
+        id="teamsGrid"
+        class="grid"
+    ></div>
+
+</section>
+
+
+<!-- PROFILE -->
+
+<section
+    id="profile"
+    class="page"
+>
+
+    <h1 class="title">
+        Мой аккаунт
+    </h1>
+
+    <p class="description">
+        Управление профилем.
+    </p>
+
+
+    <div class="profile">
+
+        <div class="profile-head">
+
+            <div
+                id="profileAvatar"
+                class="profile-avatar"
+            >
+                M
+            </div>
+
+            <div>
+
+                <h2
+                    id="profileName"
+                    style="margin:0"
+                >
+                    Midilalay
+                </h2>
+
+                <div
+                    id="profileRole"
+                    class="role"
+                >
+                    Owner
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="profileEmail"
+            style="
+                margin-top:20px;
+                color:var(--muted);
+            "
+        ></div>
+
+
+        <h3 style="margin-top:30px">
+            Права аккаунта
+        </h3>
+
+
+        <div
+            id="profilePermissions"
+            class="permissions"
+        ></div>
+
+
+        <button
+            class="secondary"
+            style="margin-top:25px"
+            onclick="logout()"
+        >
+            Выйти из аккаунта
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- USERS -->
+
+<section
+    id="users"
+    class="page"
+>
+
+    <h1 class="title">
+        Пользователи
+    </h1>
+
+    <p class="description">
+        Управление пользователями Anywary.
+    </p>
+
+
+    <div
+        id="usersList"
+        class="card"
+    ></div>
+
+</section>
+
+
+<!-- ADMIN -->
+
+<section
+    id="admin"
+    class="page"
+>
+
+    <h1 class="title">
+        Admin Center
+    </h1>
+
+    <p class="description">
+        Центр управления Anywary.
+    </p>
+
+
+    <div class="grid">
+
+        <div class="card">
+
+            <h3>
+                👥 Пользователи
+            </h3>
+
+            <p>
+                Управление аккаунтами
+                и ролями.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                🔐 Permissions
+            </h3>
+
+            <p>
+                Управление доступом
+                к функциям.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                🛡 Security
+            </h3>
+
+            <p>
+                Настройки безопасности.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="card"
+        style="margin-top:15px"
+    >
+
+        <h3>
+            Текущий аккаунт
+        </h3>
+
+        <p id="adminInfo"></p>
+
+    </div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
+<script>
+
+/* =====================================================
+   ANYWARY ACCOUNT SYSTEM
+===================================================== */
+
+/*
+    ВАЖНО:
+
+    Это локальная демонстрационная система.
+
+    Пароли здесь НЕ должны использоваться
+    для настоящего production-сайта.
+
+    Для production:
+    Backend + database + password hashing
+    + sessions/JWT + HTTPS.
+*/
+
+
+const STORAGE_USERS =
+    "anywary_users_v5";
+
+const STORAGE_SESSION =
+    "anywary_session_v5";
+
+
+/* =====================================================
+   PERMISSIONS
+===================================================== */
+
+const ALL_PERMISSIONS = [
+
+    "view_platform",
+    "create_projects",
+    "edit_projects",
+    "create_teams",
+    "manage_team",
+    "view_users",
+    "manage_users",
+    "assign_roles",
+    "manage_permissions",
+    "manage_settings",
+    "view_admin",
+    "delete_content"
+
+];
+
+
+const ROLE_PERMISSIONS = {
+
+    Owner: ALL_PERMISSIONS,
+
+    Admin: [
+        "view_platform",
+        "create_projects",
+        "edit_projects",
+        "create_teams",
+        "manage_team",
+        "view_users",
+        "manage_users",
+        "assign_roles",
+        "manage_permissions",
+        "manage_settings",
+        "view_admin",
+        "delete_content"
+    ],
+
+    Manager: [
+        "view_platform",
+        "create_projects",
+        "edit_projects",
+        "manage_team",
+        "view_users"
+    ],
+
+    Creator: [
+        "view_platform",
+        "create_projects",
+        "edit_projects"
+    ],
+
+    Member: [
+        "view_platform",
+        "create_projects"
+    ],
+
+    Viewer: [
+        "view_platform"
+    ]
+
+};
+
+
+/* =====================================================
+   DATABASE
+===================================================== */
+
+function getUsers(){
+
+    try{
+
+        return JSON.parse(
+            localStorage.getItem(
+                STORAGE_USERS
+            )
+        ) || [];
+
+    }catch{
+
+        return [];
+
+    }
+
+}
+
+
+function saveUsers(users){
+
+    localStorage.setItem(
+        STORAGE_USERS,
+        JSON.stringify(users)
+    );
+
+}
+
+
+function getCurrentUser(){
+
+    const username =
+        localStorage.getItem(
+            STORAGE_SESSION
+        );
+
+
+    if(!username){
+        return null;
+    }
+
+
+    return getUsers().find(
+        user =>
+            user.username === username
+    ) || null;
+
+}
+
+
+/* =====================================================
+   FIRST OWNER
+===================================================== */
+
+/*
+   При первом запуске создаётся Owner.
+
+   Пароль намеренно НЕ хранится
+   в коде приложения.
+
+   При первом запуске тебе нужно
+   зарегистрировать Owner через форму.
+*/
+
+function ensureDatabase(){
+
+    const users =
+        getUsers();
+
+
+    if(users.length === 0){
+
+        /*
+           Первый аккаунт создаётся
+           через регистрацию.
+
+           Чтобы сделать его Owner,
+           используется специальный
+           локальный bootstrap-флаг.
+        */
+
+        localStorage.setItem(
+            "anywary_first_account",
+            "true"
+        );
+
+    }
+
+}
+
+
+ensureDatabase();
+
+
+/* =====================================================
+   AUTH MODE
+===================================================== */
+
+let authMode = "login";
+
+
+function switchAuthMode(){
+
+    authMode =
+        authMode === "login"
+            ? "register"
+            : "login";
+
+
+    const title =
+        document.getElementById(
+            "authTitle"
+        );
+
+    const description =
+        document.getElementById(
+            "authDescription"
+        );
+
+    const button =
+        document.getElementById(
+            "authButton"
+        );
+
+    const switchButton =
+        document.getElementById(
+            "switchButton"
+        );
+
+    const emailField =
+        document.getElementById(
+            "emailField"
+        );
+
+
+    if(authMode === "register"){
+
+        title.textContent =
+            "Создать аккаунт";
+
+        description.textContent =
+            "Присоединись к сообществу Anywary.";
+
+        button.textContent =
+            "Создать аккаунт";
+
+        switchButton.textContent =
+            "У меня уже есть аккаунт";
+
+        emailField.style.display =
+            "block";
+
+    }else{
+
+        title.textContent =
+            "Вход в Anywary";
+
+        description.textContent =
+            "Войди в свой аккаунт создателя.";
+
+        button.textContent =
+            "Войти";
+
+        switchButton.textContent =
+            "Создать аккаунт";
+
+        emailField.style.display =
+            "none";
+
+    }
+
+
+    document.getElementById(
+        "authError"
+    ).textContent = "";
+
+}
+
+
+/* =====================================================
+   AUTH SUBMIT
+===================================================== */
+
+document
+    .getElementById("authForm")
+    .addEventListener(
+        "submit",
+        handleAuth
+    );
+
+
+function handleAuth(event){
+
+    event.preventDefault();
+
+
+    const username =
+        document
+            .getElementById("username")
+            .value
+            .trim();
+
+
+    const password =
+        document
+            .getElementById("password")
+            .value;
+
+
+    const email =
+        document
+            .getElementById("email")
+            .value
+            .trim();
+
+
+    const error =
+        document.getElementById(
+            "authError"
+        );
+
+
+    error.textContent = "";
+
+
+    if(
+        username.length < 3 ||
+        password.length < 6
+    ){
+
+        error.textContent =
+            "Никнейм: минимум 3 символа. Пароль: минимум 6.";
+
+        return;
+
+    }
+
+
+    if(authMode === "register"){
+
+        register(
+            username,
+            password,
+            email
+        );
+
+    }else{
+
+        login(
+            username,
+            password
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   REGISTER
+===================================================== */
+
+function register(
+    username,
+    password,
+    email
+){
+
+    const users =
+        getUsers();
+
+
+    if(
+        users.some(
+            user =>
+                user.username.toLowerCase()
+                === username.toLowerCase()
+        )
+    ){
+
+        showAuthError(
+            "Этот никнейм уже занят."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Первый зарегистрированный аккаунт
+       получает Owner.
+
+       Все следующие получают Member.
+    */
+
+    const isFirst =
+        users.length === 0;
+
+
+    const role =
+        isFirst
+            ? "Owner"
+            : "Member";
+
+
+    const user = {
+
+        id:
+            crypto.randomUUID
+            ? crypto.randomUUID()
+            : Date.now().toString(),
+
+        username,
+
+        /*
+           Только демонстрация.
+           Production требует hash.
+        */
+
+        password,
+
+        email,
+
+        role,
+
+        permissions:
+            ROLE_PERMISSIONS[role]
+                .slice(),
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+
+    users.push(user);
+
+    saveUsers(users);
+
+
+    localStorage.setItem(
+        STORAGE_SESSION,
+        username
+    );
+
+
+    showApp();
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function login(
+    username,
+    password
+){
+
+    const user =
+        getUsers().find(
+            item =>
+                item.username.toLowerCase()
+                === username.toLowerCase()
+        );
+
+
+    if(!user){
+
+        showAuthError(
+            "Пользователь не найден."
+        );
+
+        return;
+
+    }
+
+
+    if(user.password !== password){
+
+        showAuthError(
+            "Неверный пароль."
+        );
+
+        return;
+
+    }
+
+
+    localStorage.setItem(
+        STORAGE_SESSION,
+        user.username
+    );
+
+
+    showApp();
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout(){
+
+    localStorage.removeItem(
+        STORAGE_SESSION
+    );
+
+
+    document
+        .getElementById("app")
+        .classList.remove("visible");
+
+
+    document
+        .getElementById("authScreen")
+        .style.display =
+            "grid";
+
+
+    document
+        .getElementById("password")
+        .value = "";
+
+
+    showToast(
+        "Вы вышли из аккаунта"
+    );
+
+}
+
+
+/* =====================================================
+   SHOW APP
+===================================================== */
+
+function showApp(){
+
+    const user =
+        getCurrentUser();
+
+
+    if(!user){
+
+        logout();
+        return;
+
+    }
+
+
+    document
+        .getElementById("authScreen")
+        .style.display =
+            "none";
+
+
+    document
+        .getElementById("app")
+        .classList.add("visible");
+
+
+    updateUserInterface(
+        user
+    );
+
+
+    renderUsers();
+
+
+    openPage(
+        "home",
+        document.querySelector(
+            ".nav button"
+        )
+    );
+
+}
+
+
+/* =====================================================
+   UPDATE USER UI
+===================================================== */
+
+function updateUserInterface(user){
+
+    document.getElementById(
+        "welcomeName"
+    ).textContent =
+        user.username;
+
+
+    document.getElementById(
+        "sidebarName"
+    ).textContent =
+        user.username;
+
+
+    document.getElementById(
+        "sidebarRole"
+    ).textContent =
+        user.role;
+
+
+    document.getElementById(
+        "profileName"
+    ).textContent =
+        user.username;
+
+
+    document.getElementById(
+        "profileRole"
+    ).textContent =
+        user.role;
+
+
+    document.getElementById(
+        "profileEmail"
+    ).textContent =
+        user.email
+            ? user.email
+            : "Email не указан";
+
+
+    const initials =
+        getInitials(
+            user.username
+        );
+
+
+    document.getElementById(
+        "sidebarAvatar"
+    ).textContent =
+        initials;
+
+
+    document.getElementById(
+        "profileAvatar"
+    ).textContent =
+        initials;
+
+
+    renderPermissions(
+        user
+    );
+
+
+    applyAccess(
+        user
+    );
+
+
+    document.getElementById(
+        "adminInfo"
+    ).textContent =
+        `${user.username} · ${user.role}`;
+
+}
+
+
+/* =====================================================
+   PERMISSIONS UI
+===================================================== */
+
+function renderPermissions(user){
+
+    const box =
+        document.getElementById(
+            "profilePermissions"
+        );
+
+
+    box.innerHTML = "";
+
+
+    user.permissions.forEach(
+        permission => {
+
+            const element =
+                document.createElement(
+                    "div"
+                );
+
+
+            element.className =
+                "permission";
+
+
+            element.textContent =
+                permission;
+
+
+            box.appendChild(
+                element
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   ACCESS CONTROL
+===================================================== */
+
+function hasPermission(
+    permission
+){
+
+    const user =
+        getCurrentUser();
+
+
+    if(!user){
+        return false;
+    }
+
+
+    return user.permissions
+        .includes(permission);
+
+}
+
+
+function applyAccess(user){
+
+    const usersNav =
+        document.getElementById(
+            "usersNav"
+        );
+
+
+    const adminNav =
+        document.getElementById(
+            "adminNav"
+        );
+
+
+    usersNav.style.display =
+        hasPermission("view_users")
+            ? "flex"
+            : "none";
+
+
+    adminNav.style.display =
+        hasPermission("view_admin")
+            ? "flex"
+            : "none";
+
+}
+
+
+/* =====================================================
+   USERS
+===================================================== */
+
+function renderUsers(){
+
+    const list =
+        document.getElementById(
+            "usersList"
+        );
+
+
+    const current =
+        getCurrentUser();
+
+
+    const users =
+        getUsers();
+
+
+    list.innerHTML = "";
+
+
+    users.forEach(
+        user => {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "user-row";
+
+
+            const canManage =
+                current &&
+                hasPermission(
+                    "assign_roles"
+                ) &&
+                user.username
+                    !== current.username;
+
+
+            row.innerHTML = `
+
+                <div class="avatar">
+                    ${getInitials(user.username)}
+                </div>
+
+                <div class="user-info">
+
+                    <strong>
+                        ${escapeHTML(user.username)}
+                    </strong>
+
+                    <span>
+                        ${escapeHTML(
+                            user.email || "Без email"
+                        )}
+                    </span>
+
+                </div>
+
+                <div>
+                    ${
+                        canManage
+                        ?
+                        `
+                        <select
+                            onchange="
+                                changeRole(
+                                    '${escapeJS(user.username)}',
+                                    this.value
+                                )
+                            "
+                        >
+
+                            ${roleOptions(
+                                user.role
+                            )}
+
+                        </select>
+                        `
+                        :
+                        `
+                        <span class="role">
+                            ${escapeHTML(user.role)}
+                        </span>
+                        `
+                    }
+                </div>
+
+            `;
+
+
+            list.appendChild(row);
+
+        }
+    );
+
+}
+
+
+function roleOptions(
+    currentRole
+){
+
+    return [
+        "Owner",
+        "Admin",
+        "Manager",
+        "Creator",
+        "Member",
+        "Viewer"
+    ]
+    .map(
+        role =>
+            `<option
+                ${role === currentRole
+                    ? "selected"
+                    : ""}
+            >
+                ${role}
+            </option>`
+    )
+    .join("");
+
+}
+
+
+/* =====================================================
+   CHANGE ROLE
+===================================================== */
+
+function changeRole(
+    username,
+    role
+){
+
+    if(
+        !hasPermission(
+            "assign_roles"
+        )
+    ){
+
+        showToast(
+            "У тебя нет права менять роли."
+        );
+
+        renderUsers();
+
+        return;
+
+    }
+
+
+    const current =
+        getCurrentUser();
+
+
+    /*
+       Owner нельзя выдать обычному
+       пользователю через эту демо-форму,
+       если текущий пользователь не Owner.
+    */
+
+    if(
+        role === "Owner" &&
+        current.role !== "Owner"
+    ){
+
+        showToast(
+            "Только Owner может назначать Owner."
+        );
+
+        renderUsers();
+
+        return;
+
+    }
+
+
+    const users =
+        getUsers();
+
+
+    const user =
+        users.find(
+            item =>
+                item.username === username
+        );
+
+
+    if(!user){
+        return;
+    }
+
+
+    user.role =
+        role;
+
+
+    user.permissions =
+        ROLE_PERMISSIONS[role]
+            .slice();
+
+
+    saveUsers(users);
+
+
+    renderUsers();
+
+
+    showToast(
+        `${username}: роль изменена на ${role}`
+    );
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function openPage(
+    id,
+    button
+){
+
+    /*
+       Permission checks
+    */
+
+    if(
+        id === "users" &&
+        !hasPermission("view_users")
+    ){
+
+        showToast(
+            "Доступ запрещён."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        id === "admin" &&
+        !hasPermission("view_admin")
+    ){
+
+        showToast(
+            "Доступ запрещён."
+        );
+
+        return;
+
+    }
+
+
+    document
+        .querySelectorAll(".page")
+        .forEach(
+            page =>
+                page.classList.remove(
+                    "active"
+                )
+        );
+
+
+    const page =
+        document.getElementById(id);
+
+
+    if(page){
+        page.classList.add("active");
+    }
+
+
+    document
+        .querySelectorAll(".nav button")
+        .forEach(
+            btn =>
+                btn.classList.remove(
+                    "active"
+                )
+        );
+
+
+    if(button){
+        button.classList.add("active");
+    }
+
+}
+
+
+/* =====================================================
+   TEAMS
+===================================================== */
+
+const teams = [
+
+    ["PersonallyTeam","👤"],
+    ["FraundScopeTeam","🛡️"],
+    ["MirnoTeam","🌐"],
+    ["AnywaryTeam","◈"],
+    ["CreatorTeam","🚀"],
+    ["StudioTeam","⚡"],
+    ["InfoTeam","📰"],
+    ["CommunityTeam","🤝"],
+    ["DesignTeam","🎨"]
+
+];
+
+
+function renderTeams(){
+
+    const grid =
+        document.getElementById(
+            "teamsGrid"
+        );
+
+
+    grid.innerHTML = "";
+
+
+    teams.forEach(
+        team => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "card";
+
+
+            card.innerHTML = `
+
+                <div
+                    style="font-size:30px"
+                >
+                    ${team[1]}
+                </div>
+
+                <h3>
+                    ${team[0]}
+                </h3>
+
+                <p>
+                    Команда экосистемы Anywary.
+                </p>
+
+                <button
+                    class="secondary"
+                    onclick="
+                        showToast(
+                            '${team[0]} откроется в следующей версии'
+                        )
+                    "
+                >
+                    Открыть →
+                </button>
+
+            `;
+
+
+            grid.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   THEME
+===================================================== */
+
+function toggleTheme(){
+
+    document.body.classList.toggle(
+        "dark"
+    );
+
+
+    localStorage.setItem(
+        "anywary_theme",
+        document.body.classList.contains(
+            "dark"
+        )
+        ? "dark"
+        : "light"
+    );
+
+}
+
+
+if(
+    localStorage.getItem(
+        "anywary_theme"
+    ) === "dark"
+){
+
+    document.body.classList.add(
+        "dark"
+    );
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+let toastTimer;
+
+
+function showToast(message){
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toastTimer =
+        setTimeout(
+            () =>
+                toast.classList.remove(
+                    "show"
+                ),
+            2600
+        );
+
+}
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function showAuthError(message){
+
+    document.getElementById(
+        "authError"
+    ).textContent =
+        message;
+
+}
+
+
+function getInitials(name){
+
+    return name
+        .trim()
+        .slice(0,2)
+        .toUpperCase();
+
+}
+
+
+function escapeHTML(value){
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+function escapeJS(value){
+
+    return String(value)
+        .replaceAll("\\","\\\\")
+        .replaceAll("'","\\'");
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+renderTeams();
+
+
+if(
+    getCurrentUser()
+){
+
+    showApp();
+
+}else{
+
+    document
+        .getElementById(
+            "authScreen"
+        )
+        .style.display =
+            "grid";
+
+}
+
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anywary — Creator Center</title>
+
+<style>
+:root{
+    --bg:#f4f5f8;
+    --panel:rgba(255,255,255,.78);
+    --panel2:rgba(255,255,255,.55);
+    --text:#17181c;
+    --muted:#777b85;
+    --border:rgba(0,0,0,.08);
+    --blue:#4d7cff;
+    --purple:#765cff;
+    --green:#22c878;
+    --red:#ef4444;
+    --shadow:0 18px 55px rgba(0,0,0,.10);
+}
+
+body.dark{
+    --bg:#101114;
+    --panel:rgba(29,30,35,.82);
+    --panel2:rgba(45,46,52,.65);
+    --text:#f5f5f5;
+    --muted:#a1a1aa;
+    --border:rgba(255,255,255,.09);
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:"Segoe UI",system-ui,sans-serif;
+    color:var(--text);
+    background:
+        radial-gradient(
+            circle at 90% 0%,
+            rgba(77,124,255,.18),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 0% 100%,
+            rgba(118,92,255,.14),
+            transparent 30%
+        ),
+        var(--bg);
+}
+
+/* AUTH */
+
+.auth{
+    min-height:100vh;
+    display:grid;
+    place-items:center;
+    padding:20px;
+}
+
+.auth-box{
+    width:min(430px,100%);
+    padding:35px;
+    border:1px solid var(--border);
+    border-radius:28px;
+    background:var(--panel);
+    box-shadow:var(--shadow);
+    backdrop-filter:blur(30px);
+}
+
+.logo-mark{
+    width:52px;
+    height:52px;
+    display:grid;
+    place-items:center;
+    border-radius:16px;
+    color:white;
+    font-size:24px;
+    font-weight:800;
+    background:linear-gradient(135deg,var(--blue),var(--purple));
+}
+
+.auth h1{
+    margin:20px 0 7px;
+    font-size:31px;
+}
+
+.auth p{
+    color:var(--muted);
+}
+
+.field{
+    margin-top:17px;
+}
+
+.field label{
+    display:block;
+    margin-bottom:7px;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.field input,
+.field textarea,
+.field select{
+    width:100%;
+    padding:13px 14px;
+    border:1px solid var(--border);
+    border-radius:11px;
+    outline:none;
+    color:var(--text);
+    background:var(--panel2);
+}
+
+.field textarea{
+    resize:vertical;
+    min-height:100px;
+}
+
+.primary{
+    padding:12px 17px;
+    border:0;
+    border-radius:11px;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    background:linear-gradient(135deg,var(--blue),var(--purple));
+}
+
+.auth .primary{
+    width:100%;
+    margin-top:22px;
+}
+
+.switch{
+    margin-top:17px;
+    border:0;
+    background:none;
+    color:var(--blue);
+    cursor:pointer;
+}
+
+.error{
+    color:var(--red);
+    font-size:12px;
+    margin-top:12px;
+}
+
+/* APP */
+
+.app{
+    display:none;
+    min-height:100vh;
+}
+
+.app.show{
+    display:flex;
+}
+
+.sidebar{
+    width:250px;
+    min-height:100vh;
+    padding:15px 12px;
+    display:flex;
+    flex-direction:column;
+    border-right:1px solid var(--border);
+    background:var(--panel);
+    backdrop-filter:blur(30px);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:7px 9px 23px;
+}
+
+.brand-name{
+    font-weight:700;
+}
+
+.brand-sub{
+    font-size:10px;
+    color:var(--muted);
+}
+
+.nav{
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+}
+
+.nav button{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:13px;
+    padding:11px 13px;
+    border:0;
+    border-radius:10px;
+    color:var(--text);
+    background:transparent;
+    cursor:pointer;
+    text-align:left;
+}
+
+.nav button:hover,
+.nav button.active{
+    background:var(--panel2);
+}
+
+.icon{
+    width:20px;
+    text-align:center;
+}
+
+.user-mini{
+    margin-top:auto;
+    padding:11px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border:1px solid var(--border);
+    border-radius:15px;
+    background:var(--panel2);
+}
+
+.avatar{
+    width:38px;
+    height:38px;
+    flex-shrink:0;
+    display:grid;
+    place-items:center;
+    border-radius:50%;
+    color:white;
+    font-weight:700;
+    background:linear-gradient(135deg,#765cff,#4d7cff);
+}
+
+.user-mini strong{
+    display:block;
+    font-size:13px;
+}
+
+.user-mini span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.main{
+    flex:1;
+    min-width:0;
+    padding:20px 28px 70px;
+    overflow:auto;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.search{
+    flex:1;
+    max-width:600px;
+}
+
+.search input{
+    width:100%;
+    padding:12px 16px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    outline:none;
+    color:var(--text);
+    background:var(--panel);
+}
+
+.top-actions{
+    display:flex;
+    gap:8px;
+}
+
+.icon-button{
+    width:40px;
+    height:40px;
+    border:1px solid var(--border);
+    border-radius:11px;
+    color:var(--text);
+    background:var(--panel);
+    cursor:pointer;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.title{
+    margin:0;
+    font-size:38px;
+    letter-spacing:-1px;
+}
+
+.description{
+    color:var(--muted);
+    margin-top:8px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:15px;
+}
+
+.card{
+    padding:20px;
+    border:1px solid var(--border);
+    border-radius:19px;
+    background:var(--panel);
+    box-shadow:0 5px 20px rgba(0,0,0,.04);
+}
+
+.card h3{
+    margin:10px 0 7px;
+}
+
+.card p{
+    color:var(--muted);
+    line-height:1.5;
+    font-size:13px;
+}
+
+.card-actions{
+    display:flex;
+    gap:8px;
+    margin-top:17px;
+    flex-wrap:wrap;
+}
+
+.secondary{
+    padding:10px 14px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    color:var(--text);
+    background:var(--panel);
+    cursor:pointer;
+}
+
+.danger{
+    padding:10px 14px;
+    border:0;
+    border-radius:10px;
+    color:white;
+    background:var(--red);
+    cursor:pointer;
+}
+
+/* PROJECT */
+
+.project-card{
+    position:relative;
+    overflow:hidden;
+}
+
+.project-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+}
+
+.project-icon{
+    width:48px;
+    height:48px;
+    display:grid;
+    place-items:center;
+    border-radius:14px;
+    color:white;
+    font-size:21px;
+    background:linear-gradient(135deg,var(--blue),var(--purple));
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 8px;
+    border-radius:7px;
+    font-size:10px;
+    color:var(--blue);
+    background:rgba(77,124,255,.10);
+}
+
+.project-meta{
+    margin-top:14px;
+    color:var(--muted);
+    font-size:11px;
+}
+
+/* PROFILE */
+
+.profile{
+    max-width:800px;
+    padding:30px;
+    border:1px solid var(--border);
+    border-radius:23px;
+    background:var(--panel);
+    box-shadow:var(--shadow);
+}
+
+.profile-head{
+    display:flex;
+    align-items:center;
+    gap:17px;
+}
+
+.big-avatar{
+    width:82px;
+    height:82px;
+    display:grid;
+    place-items:center;
+    border-radius:24px;
+    color:white;
+    font-size:28px;
+    font-weight:800;
+    background:linear-gradient(135deg,#765cff,#4d7cff);
+}
+
+.role{
+    display:inline-block;
+    margin-top:5px;
+    padding:5px 9px;
+    border-radius:7px;
+    color:var(--blue);
+    background:rgba(77,124,255,.1);
+    font-size:11px;
+}
+
+.permissions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    margin-top:15px;
+}
+
+.permission{
+    padding:7px 10px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    font-size:10px;
+    background:var(--panel2);
+}
+
+/* TEAM */
+
+.team-icon{
+    font-size:30px;
+}
+
+/* TABLE */
+
+.user-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:13px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.user-row:last-child{
+    border-bottom:0;
+}
+
+.user-info{
+    flex:1;
+}
+
+.user-info strong{
+    display:block;
+}
+
+.user-info span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    display:none;
+    place-items:center;
+    padding:20px;
+    background:rgba(0,0,0,.28);
+    backdrop-filter:blur(7px);
+}
+
+.modal.show{
+    display:grid;
+}
+
+.modal-box{
+    width:min(600px,100%);
+    max-height:90vh;
+    overflow:auto;
+    padding:25px;
+    border:1px solid var(--border);
+    border-radius:22px;
+    background:var(--panel);
+    box-shadow:var(--shadow);
+}
+
+.modal-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.modal-head h2{
+    margin:0;
+}
+
+.close{
+    width:35px;
+    height:35px;
+    border:0;
+    border-radius:10px;
+    color:var(--text);
+    background:var(--panel2);
+    cursor:pointer;
+}
+
+.form-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    margin-top:20px;
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    right:24px;
+    bottom:24px;
+    z-index:2000;
+    padding:13px 17px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:var(--panel);
+    box-shadow:var(--shadow);
+    opacity:0;
+    transform:translateY(10px);
+    transition:.2s;
+    pointer-events:none;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* MOBILE */
+
+@media(max-width:850px){
+
+    .sidebar{
+        width:76px;
+    }
+
+    .brand-name,
+    .brand-sub,
+    .nav button span:not(.icon),
+    .user-mini > div:not(.avatar){
+        display:none;
+    }
+
+    .brand{
+        justify-content:center;
+    }
+
+    .nav button{
+        justify-content:center;
+    }
+
+    .user-mini{
+        justify-content:center;
+    }
+
+    .grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:600px){
+
+    .sidebar{
+        position:fixed;
+        left:10px;
+        right:10px;
+        bottom:10px;
+        width:auto;
+        min-height:65px;
+        height:65px;
+        z-index:500;
+        padding:7px;
+        border-radius:19px;
+    }
+
+    .brand,
+    .user-mini{
+        display:none;
+    }
+
+    .nav{
+        height:100%;
+        flex-direction:row;
+    }
+
+    .nav button{
+        flex:1;
+    }
+
+    .main{
+        padding:15px 15px 100px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .title{
+        font-size:30px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+AUTH
+===================================================== -->
+
+<section id="auth" class="auth">
+
+    <div class="auth-box">
+
+        <div class="logo-mark">A</div>
+
+        <h1 id="authTitle">
+            Вход в Anywary
+        </h1>
+
+        <p id="authDescription">
+            Твоя экосистема создателей.
+        </p>
+
+        <form id="authForm">
+
+            <div class="field">
+                <label>Никнейм</label>
+                <input
+                    id="authUsername"
+                    required
+                    autocomplete="username"
+                    placeholder="Midilalay"
+                >
+            </div>
+
+            <div
+                class="field"
+                id="authEmailBox"
+                style="display:none"
+            >
+                <label>Email</label>
+                <input
+                    id="authEmail"
+                    type="email"
+                    placeholder="creator@example.com"
+                >
+            </div>
+
+            <div class="field">
+                <label>Пароль</label>
+                <input
+                    id="authPassword"
+                    type="password"
+                    required
+                    autocomplete="current-password"
+                    placeholder="••••••••"
+                >
+            </div>
+
+            <button
+                class="primary"
+                id="authSubmit"
+                type="submit"
+            >
+                Войти
+            </button>
+
+        </form>
+
+        <div
+            id="authError"
+            class="error"
+        ></div>
+
+        <button
+            class="switch"
+            onclick="switchAuth()"
+        >
+            Создать аккаунт
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+APPLICATION
+===================================================== -->
+
+<div id="app" class="app">
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <div class="logo-mark">
+            A
+        </div>
+
+        <div>
+            <div class="brand-name">
+                Anywary
+            </div>
+            <div class="brand-sub">
+                Creator Center
+            </div>
+        </div>
+
+    </div>
+
+
+    <nav class="nav">
+
+        <button
+            class="active"
+            onclick="openPage('home',this)"
+        >
+            <span class="icon">⌂</span>
+            <span>Главная</span>
+        </button>
+
+        <button
+            onclick="openPage('creator',this)"
+        >
+            <span class="icon">🚀</span>
+            <span>Creator Center</span>
+        </button>
+
+        <button
+            onclick="openPage('teams',this)"
+        >
+            <span class="icon">◇</span>
+            <span>Teams</span>
+        </button>
+
+        <button
+            onclick="openPage('info',this)"
+        >
+            <span class="icon">📰</span>
+            <span>Info Center</span>
+        </button>
+
+        <button
+            onclick="openPage('profile',this)"
+        >
+            <span class="icon">♙</span>
+            <span>Anywary ID</span>
+        </button>
+
+        <button
+            id="usersButton"
+            onclick="openPage('users',this)"
+        >
+            <span class="icon">♚</span>
+            <span>Users</span>
+        </button>
+
+        <button
+            id="ownerButton"
+            onclick="openPage('owner',this)"
+        >
+            <span class="icon">⚙</span>
+            <span>Owner Center</span>
+        </button>
+
+    </nav>
+
+
+    <div class="user-mini">
+
+        <div
+            class="avatar"
+            id="sideAvatar"
+        >
+            M
+        </div>
+
+        <div>
+            <strong id="sideName">
+                Midilalay
+            </strong>
+
+            <span id="sideRole">
+                Owner
+            </span>
+        </div>
+
+    </div>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="search">
+
+        <input
+            id="search"
+            placeholder="Поиск по Anywary..."
+            oninput="globalSearch()"
+        >
+
+    </div>
+
+    <div class="top-actions">
+
+        <button
+            class="icon-button"
+            onclick="toggleTheme()"
+            title="Тема"
+        >
+            ◐
+        </button>
+
+        <button
+            class="icon-button"
+            onclick="logout()"
+            title="Выйти"
+        >
+            ↪
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+HOME
+===================================================== -->
+
+<section
+    id="home"
+    class="page active"
+>
+
+    <h1 class="title">
+        Добро пожаловать 👋
+    </h1>
+
+    <p class="description">
+        Anywary — информационный центр сообщества создателей.
+    </p>
+
+
+    <div
+        class="card"
+        style="margin-top:25px"
+    >
+
+        <h2>
+            Привет, <span id="welcomeName"></span>
+        </h2>
+
+        <p>
+            Создавай проекты, присоединяйся к командам
+            и развивай экосистему Anywary.
+        </p>
+
+        <div class="card-actions">
+
+            <button
+                class="primary"
+                onclick="openPage('creator')"
+            >
+                Создать проект
+            </button>
+
+            <button
+                class="secondary"
+                onclick="openPage('teams')"
+            >
+                Посмотреть команды
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="grid"
+        style="margin-top:15px"
+    >
+
+        <div class="card">
+            <h3>🚀 Creator Center</h3>
+            <p>
+                Управляй своими проектами.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>👥 9 Teams</h3>
+            <p>
+                Найди подходящую команду.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>📰 Info Center</h3>
+            <p>
+                Новости и информация Anywary.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+CREATOR CENTER
+===================================================== -->
+
+<section
+    id="creator"
+    class="page"
+>
+
+    <div
+        style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:15px;
+            flex-wrap:wrap;
+        "
+    >
+
+        <div>
+
+            <h1 class="title">
+                Creator Center
+            </h1>
+
+            <p class="description">
+                Твои проекты в экосистеме Anywary.
+            </p>
+
+        </div>
+
+        <button
+            class="primary"
+            onclick="openProjectModal()"
+        >
+            + Новый проект
+        </button>
+
+    </div>
+
+
+    <div
+        id="projectsGrid"
+        class="grid"
+        style="margin-top:25px"
+    ></div>
+
+</section>
+
+
+<!-- =====================================================
+TEAMS
+===================================================== -->
+
+<section
+    id="teams"
+    class="page"
+>
+
+    <h1 class="title">
+        Anywary Teams
+    </h1>
+
+    <p class="description">
+        Девять команд сообщества.
+    </p>
+
+
+    <div
+        id="teamsGrid"
+        class="grid"
+        style="margin-top:25px"
+    ></div>
+
+</section>
+
+
+<!-- =====================================================
+INFO
+===================================================== -->
+
+<section
+    id="info"
+    class="page"
+>
+
+    <h1 class="title">
+        Info Center
+    </h1>
+
+    <p class="description">
+        Информационный центр Anywary.
+    </p>
+
+
+    <div
+        class="grid"
+        style="margin-top:25px"
+    >
+
+        <div class="card">
+            <div style="font-size:30px">📢</div>
+            <h3>Новости</h3>
+            <p>
+                Здесь будут обновления экосистемы.
+            </p>
+        </div>
+
+        <div class="card">
+            <div style="font-size:30px">📚</div>
+            <h3>Документация</h3>
+            <p>
+                Руководства для создателей.
+            </p>
+        </div>
+
+        <div class="card">
+            <div style="font-size:30px">📋</div>
+            <h3>Changelog</h3>
+            <p>
+                История изменений Anywary.
+            </p>
+        </div>
+
+        <div class="card">
+            <div style="font-size:30px">🌐</div>
+            <h3>Community</h3>
+            <p>
+                Пространство сообщества.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+PROFILE
+===================================================== -->
+
+<section
+    id="profile"
+    class="page"
+>
+
+    <h1 class="title">
+        Anywary ID
+    </h1>
+
+    <p class="description">
+        Твой единый профиль создателя.
+    </p>
+
+
+    <div
+        class="profile"
+        style="margin-top:25px"
+    >
+
+        <div class="profile-head">
+
+            <div
+                id="profileAvatar"
+                class="big-avatar"
+            >
+                M
+            </div>
+
+            <div>
+
+                <h2
+                    id="profileName"
+                    style="margin:0"
+                >
+                    Midilalay
+                </h2>
+
+                <span
+                    id="profileRole"
+                    class="role"
+                >
+                    Owner
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <p
+            id="profileEmail"
+            style="
+                margin-top:20px;
+                color:var(--muted);
+            "
+        ></p>
+
+
+        <h3 style="margin-top:28px">
+            Permissions
+        </h3>
+
+
+        <div
+            id="permissions"
+            class="permissions"
+        ></div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+USERS
+===================================================== -->
+
+<section
+    id="users"
+    class="page"
+>
+
+    <h1 class="title">
+        Users
+    </h1>
+
+    <p class="description">
+        Пользователи сообщества.
+    </p>
+
+
+    <div
+        id="usersList"
+        class="card"
+        style="margin-top:25px"
+    ></div>
+
+</section>
+
+
+<!-- =====================================================
+OWNER CENTER
+===================================================== -->
+
+<section
+    id="owner"
+    class="page"
+>
+
+    <h1 class="title">
+        Owner Center
+    </h1>
+
+    <p class="description">
+        Управление экосистемой Anywary.
+    </p>
+
+
+    <div
+        class="grid"
+        style="margin-top:25px"
+    >
+
+        <div class="card">
+            <div style="font-size:28px">👥</div>
+            <h3>Users</h3>
+            <p>
+                Управление участниками.
+            </p>
+            <button
+                class="secondary"
+                onclick="openPage('users')"
+            >
+                Управлять
+            </button>
+        </div>
+
+        <div class="card">
+            <div style="font-size:28px">🔐</div>
+            <h3>Permissions</h3>
+            <p>
+                Управление правами доступа.
+            </p>
+            <button
+                class="secondary"
+                onclick="showToast('Permissions Center — следующая версия')"
+            >
+                Открыть
+            </button>
+        </div>
+
+        <div class="card">
+            <div style="font-size:28px">👑</div>
+            <h3>Roles</h3>
+            <p>
+                Owner, Admin, Manager, Creator и Member.
+            </p>
+            <button
+                class="secondary"
+                onclick="showToast('Role Manager — следующая версия')"
+            >
+                Открыть
+            </button>
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+</div>
+
+
+<!-- =====================================================
+PROJECT MODAL
+===================================================== -->
+
+<div
+    id="projectModal"
+    class="modal"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+
+            <h2>
+                Новый проект
+            </h2>
+
+            <button
+                class="close"
+                onclick="closeProjectModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Название проекта
+            </label>
+
+            <input
+                id="projectName"
+                placeholder="Например: Anywary Music"
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Описание
+            </label>
+
+            <textarea
+                id="projectDescription"
+                placeholder="Расскажи о проекте..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Команда
+            </label>
+
+            <select id="projectTeam"></select>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                GitHub Repository
+            </label>
+
+            <input
+                id="projectGithub"
+                placeholder="https://github.com/..."
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Статус
+            </label>
+
+            <select id="projectStatus">
+
+                <option>
+                    Idea
+                </option>
+
+                <option>
+                    Development
+                </option>
+
+                <option>
+                    Beta
+                </option>
+
+                <option>
+                    Released
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-actions">
+
+            <button
+                class="secondary"
+                onclick="closeProjectModal()"
+            >
+                Отмена
+            </button>
+
+            <button
+                class="primary"
+                onclick="createProject()"
+            >
+                Создать
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
+<script>
+
+/* =====================================================
+DATA
+===================================================== */
+
+const USERS_KEY =
+    "anywary_users_v6";
+
+const PROJECTS_KEY =
+    "anywary_projects_v6";
+
+const SESSION_KEY =
+    "anywary_session_v6";
+
+
+const teams = [
+
+    {
+        name:"PersonallyTeam",
+        icon:"👤",
+        description:"Персональные проекты и профили."
+    },
+
+    {
+        name:"FraundScopeTeam",
+        icon:"🛡️",
+        description:"Безопасность и контроль."
+    },
+
+    {
+        name:"MirnoTeam",
+        icon:"🌐",
+        description:"Мирные и социальные проекты."
+    },
+
+    {
+        name:"AnywaryTeam",
+        icon:"◈",
+        description:"Основная команда платформы."
+    },
+
+    {
+        name:"CreatorTeam",
+        icon:"🚀",
+        description:"Сообщество разработчиков."
+    },
+
+    {
+        name:"StudioTeam",
+        icon:"⚡",
+        description:"Создание приложений и инструментов."
+    },
+
+    {
+        name:"InfoTeam",
+        icon:"📰",
+        description:"Новости и информационный центр."
+    },
+
+    {
+        name:"CommunityTeam",
+        icon:"🤝",
+        description:"Развитие сообщества."
+    },
+
+    {
+        name:"DesignTeam",
+        icon:"🎨",
+        description:"UI/UX и визуальный стиль."
+    }
+
+];
+
+
+const permissions = [
+
+    "view_platform",
+    "create_projects",
+    "edit_projects",
+    "create_teams",
+    "manage_team",
+    "view_users",
+    "manage_users",
+    "assign_roles",
+    "manage_permissions",
+    "manage_settings",
+    "view_admin",
+    "delete_content"
+
+];
+
+
+const rolePermissions = {
+
+    Owner: permissions,
+
+    Admin: permissions.filter(
+        p => p !== "delete_content"
+    ),
+
+    Manager: [
+        "view_platform",
+        "create_projects",
+        "edit_projects",
+        "manage_team",
+        "view_users"
+    ],
+
+    Creator: [
+        "view_platform",
+        "create_projects",
+        "edit_projects"
+    ],
+
+    Member: [
+        "view_platform",
+        "create_projects"
+    ],
+
+    Viewer: [
+        "view_platform"
+    ]
+
+};
+
+
+/* =====================================================
+STORAGE
+===================================================== */
+
+function users(){
+
+    try{
+        return JSON.parse(
+            localStorage.getItem(USERS_KEY)
+        ) || [];
+    }catch{
+        return [];
+    }
+
+}
+
+
+function projects(){
+
+    try{
+        return JSON.parse(
+            localStorage.getItem(PROJECTS_KEY)
+        ) || [];
+    }catch{
+        return [];
+    }
+
+}
+
+
+function saveUsers(data){
+
+    localStorage.setItem(
+        USERS_KEY,
+        JSON.stringify(data)
+    );
+
+}
+
+
+function saveProjects(data){
+
+    localStorage.setItem(
+        PROJECTS_KEY,
+        JSON.stringify(data)
+    );
+
+}
+
+
+function currentUser(){
+
+    const name =
+        localStorage.getItem(
+            SESSION_KEY
+        );
+
+    if(!name){
+        return null;
+    }
+
+    return users().find(
+        user =>
+            user.username === name
+    ) || null;
+
+}
+
+
+/* =====================================================
+AUTH
+===================================================== */
+
+let authMode = "login";
+
+
+function switchAuth(){
+
+    authMode =
+        authMode === "login"
+        ? "register"
+        : "login";
+
+
+    document.getElementById(
+        "authTitle"
+    ).textContent =
+        authMode === "login"
+        ? "Вход в Anywary"
+        : "Создать аккаунт";
+
+
+    document.getElementById(
+        "authDescription"
+    ).textContent =
+        authMode === "login"
+        ? "Твоя экосистема создателей."
+        : "Присоединись к сообществу Anywary.";
+
+
+    document.getElementById(
+        "authSubmit"
+    ).textContent =
+        authMode === "login"
+        ? "Войти"
+        : "Создать аккаунт";
+
+
+    document.getElementById(
+        "authEmailBox"
+    ).style.display =
+        authMode === "register"
+        ? "block"
+        : "none";
+
+}
+
+
+document.getElementById(
+    "authForm"
+).addEventListener(
+    "submit",
+    e => {
+
+        e.preventDefault();
+
+        const username =
+            document.getElementById(
+                "authUsername"
+            ).value.trim();
+
+        const password =
+            document.getElementById(
+                "authPassword"
+            ).value;
+
+        const email =
+            document.getElementById(
+                "authEmail"
+            ).value.trim();
+
+
+        if(username.length < 3){
+            authError("Никнейм слишком короткий.");
+            return;
+        }
+
+        if(password.length < 6){
+            authError("Пароль должен содержать минимум 6 символов.");
+            return;
+        }
+
+
+        if(authMode === "register"){
+
+            register(
+                username,
+                password,
+                email
+            );
+
+        }else{
+
+            login(
+                username,
+                password
+            );
+
+        }
+
+    }
+);
+
+
+function register(
+    username,
+    password,
+    email
+){
+
+    const list = users();
+
+
+    if(
+        list.some(
+            u =>
+                u.username.toLowerCase()
+                === username.toLowerCase()
+        )
+    ){
+
+        authError(
+            "Этот никнейм уже занят."
+        );
+
+        return;
+
+    }
+
+
+    const role =
+        list.length === 0
+        ? "Owner"
+        : "Member";
+
+
+    const user = {
+
+        id:
+            Date.now().toString(36),
+
+        username,
+
+        email,
+
+        password,
+
+        role,
+
+        permissions:
+            [...rolePermissions[role]],
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+
+    list.push(user);
+
+    saveUsers(list);
+
+
+    localStorage.setItem(
+        SESSION_KEY,
+        username
+    );
+
+
+    startApp();
+
+}
+
+
+function login(
+    username,
+    password
+){
+
+    const user =
+        users().find(
+            u =>
+                u.username.toLowerCase()
+                === username.toLowerCase()
+        );
+
+
+    if(!user){
+
+        authError(
+            "Пользователь не найден."
+        );
+
+        return;
+
+    }
+
+
+    if(user.password !== password){
+
+        authError(
+            "Неверный пароль."
+        );
+
+        return;
+
+    }
+
+
+    localStorage.setItem(
+        SESSION_KEY,
+        user.username
+    );
+
+
+    startApp();
+
+}
+
+
+function authError(message){
+
+    document.getElementById(
+        "authError"
+    ).textContent =
+        message;
+
+}
+
+
+function logout(){
+
+    localStorage.removeItem(
+        SESSION_KEY
+    );
+
+    document.getElementById(
+        "app"
+    ).classList.remove("show");
+
+    document.getElementById(
+        "auth"
+    ).style.display =
+        "grid";
+
+}
+
+
+/* =====================================================
+APP
+===================================================== */
+
+function startApp(){
+
+    const user =
+        currentUser();
+
+
+    if(!user){
+
+        logout();
+        return;
+
+    }
+
+
+    document.getElementById(
+        "auth"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "app"
+    ).classList.add("show");
+
+
+    updateProfile();
+
+    renderProjects();
+
+    renderTeams();
+
+    renderUsers();
+
+    fillTeamSelect();
+
+    applyPermissions();
+
+}
+
+
+function applyPermissions(){
+
+    const user =
+        currentUser();
+
+
+    const usersButton =
+        document.getElementById(
+            "usersButton"
+        );
+
+    const ownerButton =
+        document.getElementById(
+            "ownerButton"
+        );
+
+
+    usersButton.style.display =
+        user.permissions.includes(
+            "view_users"
+        )
+        ? "flex"
+        : "none";
+
+
+    ownerButton.style.display =
+        user.permissions.includes(
+            "view_admin"
+        )
+        ? "flex"
+        : "none";
+
+}
+
+
+/* =====================================================
+NAVIGATION
+===================================================== */
+
+function openPage(
+    id,
+    button
+){
+
+    const page =
+        document.getElementById(id);
+
+
+    if(!page){
+        return;
+    }
+
+
+    if(
+        id === "users" &&
+        !currentUser()
+            .permissions
+            .includes("view_users")
+    ){
+
+        showToast(
+            "Нет доступа."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        id === "owner" &&
+        !currentUser()
+            .permissions
+            .includes("view_admin")
+    ){
+
+        showToast(
+            "Нет доступа."
+        );
+
+        return;
+
+    }
+
+
+    document
+        .querySelectorAll(".page")
+        .forEach(
+            p =>
+                p.classList.remove("active")
+        );
+
+
+    page.classList.add("active");
+
+
+    document
+        .querySelectorAll(".nav button")
+        .forEach(
+            b =>
+                b.classList.remove("active")
+        );
+
+
+    if(button){
+        button.classList.add("active");
+    }
+
+}
+
+
+/* =====================================================
+PROJECTS
+===================================================== */
+
+function renderProjects(){
+
+    const grid =
+        document.getElementById(
+            "projectsGrid"
+        );
+
+
+    const user =
+        currentUser();
+
+
+    const list =
+        projects().filter(
+            p =>
+                p.owner === user.username
+        );
+
+
+    grid.innerHTML = "";
+
+
+    if(list.length === 0){
+
+        grid.innerHTML = `
+
+            <div class="card">
+
+                <div style="font-size:35px">
+                    🚀
+                </div>
+
+                <h3>
+                    Пока нет проектов
+                </h3>
+
+                <p>
+                    Создай свой первый проект
+                    в Anywary Creator Center.
+                </p>
+
+                <button
+                    class="primary"
+                    onclick="openProjectModal()"
+                >
+                    Создать проект
+                </button>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    list.forEach(
+        project => {
+
+            const team =
+                teams.find(
+                    t =>
+                        t.name === project.team
+                );
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "card project-card";
+
+
+            card.innerHTML = `
+
+                <div class="project-top">
+
+                    <div class="project-icon">
+                        🚀
+                    </div>
+
+                    <span class="badge">
+                        ${escapeHTML(project.status)}
+                    </span>
+
+                </div>
+
+                <h3>
+                    ${escapeHTML(project.name)}
+                </h3>
+
+                <p>
+                    ${escapeHTML(project.description)}
+                </p>
+
+                <div class="project-meta">
+                    👥 ${escapeHTML(team?.name || "AnywaryTeam")}
+                </div>
+
+                <div class="project-meta">
+                    Owner: ${escapeHTML(project.owner)}
+                </div>
+
+                <div class="card-actions">
+
+                    ${
+                        project.github
+                        ?
+                        `
+                        <button
+                            class="secondary"
+                            onclick="
+                                openGithub(
+                                    '${escapeJS(project.github)}'
+                                )
+                            "
+                        >
+                            GitHub
+                        </button>
+                        `
+                        :
+                        ""
+                    }
+
+                    <button
+                        class="danger"
+                        onclick="
+                            deleteProject(
+                                '${escapeJS(project.id)}'
+                            )
+                        "
+                    >
+                        Удалить
+                    </button>
+
+                </div>
+
+            `;
+
+
+            grid.appendChild(card);
+
+        }
+    );
+
+}
+
+
+function openProjectModal(){
+
+    if(
+        !currentUser()
+            .permissions
+            .includes("create_projects")
+    ){
+
+        showToast(
+            "У тебя нет права создавать проекты."
+        );
+
+        return;
+
+    }
+
+
+    document
+        .getElementById(
+            "projectModal"
+        )
+        .classList.add("show");
+
+}
+
+
+function closeProjectModal(){
+
+    document
+        .getElementById(
+            "projectModal"
+        )
+        .classList.remove("show");
+
+}
+
+
+function createProject(){
+
+    const name =
+        document.getElementById(
+            "projectName"
+        ).value.trim();
+
+
+    const description =
+        document.getElementById(
+            "projectDescription"
+        ).value.trim();
+
+
+    const team =
+        document.getElementById(
+            "projectTeam"
+        ).value;
+
+
+    const github =
+        document.getElementById(
+            "projectGithub"
+        ).value.trim();
+
+
+    const status =
+        document.getElementById(
+            "projectStatus"
+        ).value;
+
+
+    if(!name){
+
+        showToast(
+            "Укажи название проекта."
+        );
+
+        return;
+
+    }
+
+
+    const project = {
+
+        id:
+            Date.now().toString(36),
+
+        name,
+
+        description:
+            description ||
+            "Проект Anywary.",
+
+        team,
+
+        github,
+
+        status,
+
+        owner:
+            currentUser().username,
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+
+    const list =
+        projects();
+
+
+    list.push(project);
+
+    saveProjects(list);
+
+
+    closeProjectModal();
+
+    clearProjectForm();
+
+    renderProjects();
+
+
+    showToast(
+        "Проект создан 🚀"
+    );
+
+}
+
+
+function deleteProject(id){
+
+    if(
+        !confirm(
+            "Удалить этот проект?"
+        )
+    ){
+        return;
+    }
+
+
+    const list =
+        projects().filter(
+            p =>
+                p.id !== id
+        );
+
+
+    saveProjects(list);
+
+    renderProjects();
+
+
+    showToast(
+        "Проект удалён."
+    );
+
+}
+
+
+function clearProjectForm(){
+
+    document.getElementById(
+        "projectName"
+    ).value = "";
+
+    document.getElementById(
+        "projectDescription"
+    ).value = "";
+
+    document.getElementById(
+        "projectGithub"
+    ).value = "";
+
+}
+
+
+function fillTeamSelect(){
+
+    const select =
+        document.getElementById(
+            "projectTeam"
+        );
+
+
+    select.innerHTML =
+        teams
+            .map(
+                team =>
+                    `<option value="${team.name}">
+                        ${team.name}
+                    </option>`
+            )
+            .join("");
+
+}
+
+
+function openGithub(url){
+
+    if(
+        !/^https?:\/\//i.test(url)
+    ){
+
+        showToast(
+            "Некорректная ссылка."
+        );
+
+        return;
+
+    }
+
+
+    window.open(
+        url,
+        "_blank",
+        "noopener,noreferrer"
+    );
+
+}
+
+
+/* =====================================================
+TEAMS
+===================================================== */
+
+function renderTeams(){
+
+    const grid =
+        document.getElementById(
+            "teamsGrid"
+        );
+
+
+    grid.innerHTML = "";
+
+
+    teams.forEach(
+        team => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "card";
+
+
+            card.innerHTML = `
+
+                <div class="team-icon">
+                    ${team.icon}
+                </div>
+
+                <h3>
+                    ${team.name}
+                </h3>
+
+                <p>
+                    ${team.description}
+                </p>
+
+                <button
+                    class="secondary"
+                    onclick="
+                        showToast(
+                            '${escapeJS(team.name)}'
+                        )
+                    "
+                >
+                    Открыть →
+                </button>
+
+            `;
+
+
+            grid.appendChild(card);
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+PROFILE
+===================================================== */
+
+function updateProfile(){
+
+    const user =
+        currentUser();
+
+
+    const initials =
+        user.username
+            .slice(0,2)
+            .toUpperCase();
+
+
+    document.getElementById(
+        "welcomeName"
+    ).textContent =
+        user.username;
+
+
+    document.getElementById(
+        "sideName"
+    ).textContent =
+        user.username;
+
+
+    document.getElementById(
+        "sideRole"
+    ).textContent =
+        user.role;
+
+
+    document.getElementById(
+        "profileName"
+    ).textContent =
+        user.username;
+
+
+    document.getElementById(
+        "profileRole"
+    ).textContent =
+        user.role;
+
+
+    document.getElementById(
+        "profileEmail"
+    ).textContent =
+        user.email ||
+        "Email не указан";
+
+
+    document.getElementById(
+        "sideAvatar"
+    ).textContent =
+        initials;
+
+
+    document.getElementById(
+        "profileAvatar"
+    ).textContent =
+        initials;
+
+
+    const box =
+        document.getElementById(
+            "permissions"
+        );
+
+
+    box.innerHTML =
+        user.permissions
+            .map(
+                p =>
+                    `<span class="permission">
+                        ${escapeHTML(p)}
+                    </span>`
+            )
+            .join("");
+
+}
+
+
+/* =====================================================
+USERS / OWNER
+===================================================== */
+
+function renderUsers(){
+
+    const list =
+        document.getElementById(
+            "usersList"
+        );
+
+
+    const current =
+        currentUser();
+
+
+    list.innerHTML = "";
+
+
+    users().forEach(
+        user => {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "user-row";
+
+
+            const canManage =
+                current.permissions.includes(
+                    "assign_roles"
+                ) &&
+                user.username !==
+                    current.username;
+
+
+            row.innerHTML = `
+
+                <div class="avatar">
+                    ${escapeHTML(
+                        user.username
+                            .slice(0,2)
+                            .toUpperCase()
+                    )}
+                </div>
+
+                <div class="user-info">
+
+                    <strong>
+                        ${escapeHTML(user.username)}
+                    </strong>
+
+                    <span>
+                        ${escapeHTML(
+                            user.email ||
+                            "Без email"
+                        )}
+                    </span>
+
+                </div>
+
+                <span class="role">
+                    ${escapeHTML(user.role)}
+                </span>
+
+                ${
+                    canManage
+                    ?
+                    `
+                    <select
+                        onchange="
+                            changeRole(
+                                '${escapeJS(user.username)}',
+                                this.value
+                            )
+                        "
+                    >
+
+                        ${
+                            [
+                                "Admin",
+                                "Manager",
+                                "Creator",
+                                "Member",
+                                "Viewer"
+                            ]
+                            .map(
+                                role =>
+                                    `
+                                    <option
+                                        ${
+                                            role === user.role
+                                            ? "selected"
+                                            : ""
+                                        }
+                                    >
+                                        ${role}
+                                    </option>
+                                    `
+                            )
+                            .join("")
+                        }
+
+                    </select>
+                    `
+                    :
+                    ""
+                }
+
+            `;
+
+
+            list.appendChild(row);
+
+        }
+    );
+
+}
+
+
+function changeRole(
+    username,
+    role
+){
+
+    const current =
+        currentUser();
+
+
+    if(
+        !current.permissions.includes(
+            "assign_roles"
+        )
+    ){
+
+        showToast(
+            "Нет права менять роли."
+        );
+
+        return;
+
+    }
+
+
+    const list =
+        users();
+
+
+    const target =
+        list.find(
+            u =>
+                u.username === username
+        );
+
+
+    if(!target){
+        return;
+    }
+
+
+    target.role =
+        role;
+
+
+    target.permissions =
+        [...rolePermissions[role]];
+
+
+    saveUsers(list);
+
+    renderUsers();
+
+
+    showToast(
+        `${username}: ${role}`
+    );
+
+}
+
+
+/* =====================================================
+SEARCH
+===================================================== */
+
+function globalSearch(){
+
+    const value =
+        document.getElementById(
+            "search"
+        ).value
+        .trim()
+        .toLowerCase();
+
+
+    if(!value){
+        return;
+    }
+
+
+    const match =
+        projects().find(
+            p =>
+                p.owner ===
+                    currentUser().username &&
+                (
+                    p.name.toLowerCase()
+                    .includes(value) ||
+                    p.description.toLowerCase()
+                    .includes(value) ||
+                    p.team.toLowerCase()
+                    .includes(value)
